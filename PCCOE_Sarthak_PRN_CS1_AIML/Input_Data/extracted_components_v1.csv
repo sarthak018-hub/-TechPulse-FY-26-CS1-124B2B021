@@ -1,0 +1,11 @@
+component_name,type,asil,period,description,source_page,extraction_method
+DoorLockSWC,Application,ASIL-B,20 ms,"Central door locking, child safety, auto-lock at 15 km/h, and emergency crash unlock override.",5,deterministic_table
+WindowCtrlSWC,Application,ASIL-A,20 ms,"Power window motor positioning, express movement, and anti-pinch safety reverse algorithms.",5,deterministic_table
+LightingMgrSWC,Application,ASIL-B,20 ms,"Headlamps, turn signals, hazard emergency flashers, and interior ambient lighting.",5,deterministic_table
+WiperWasherSWC,Application,ASIL-A,50 ms,"Rain sensor processing, intermittent wiper pacing, and washer pump motor control.",5,deterministic_table
+ImmobilizerSWC,Application,QM,100 ms,Transponder key challenge-response cryptographic authentication with engine ECM.,5,deterministic_table
+SeatAdjustmentSWC,Application,QM,100 ms,"Electric seat adjustment motors, Hall sensor feedback, and user memory presets.",5,deterministic_table
+CanComSWC,Service Bridge,ASIL-B,10 ms,"CAN-FD frame serialization, signal filtering, E2E protection, and network management.",5,deterministic_table
+LinComSWC,Service Bridge,QM,20 ms,"LIN master coordinator for rain sensor, mirror sub-nodes, and smart ambient LEDs.",5,deterministic_table
+DiagMgrSWC,Diagnostics,ASIL-B,100 ms,"UDS ISO 14229 services, DTC fault logging, and freeze-frame snapshot capture.",5,deterministic_table
+PowerMgrSWC,Mode Control,ASIL-B,20 ms,"ECU operational modes (Active, Standby, Sleep) and battery low-voltage load shedding.",5,deterministic_table

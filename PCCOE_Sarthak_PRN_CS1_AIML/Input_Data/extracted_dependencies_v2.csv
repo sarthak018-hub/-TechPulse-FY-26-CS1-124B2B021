@@ -1,0 +1,9 @@
+component_name,provided_ports,required_ports,source_page,extraction_method
+DoorLockSWC,[REMOVED IN v2],"r_VehicleSpeed (If_VehicleSpeed), r_CrashStatus (If_CrashStatus), r_PowerState (If_PowerModeControl)",9,deterministic_table
+WindowCtrlSWC,p_WindowState (If_WindowState),"r_VehicleSpeed (If_VehicleSpeed), r_PowerState (If_PowerModeControl)",9,deterministic_table
+LightingMgrSWC,"p_LightingCommand (If_LightingCommand), p_TrailerHitch (If_TrailerHitchDetect)","r_PowerState (If_PowerModeControl), r_CrashStatus (If_CrashStatus)",9,deterministic_table
+WiperWasherSWC,p_WiperSpeedCmd (If_WiperSpeedCmd),"r_VehicleSpeed (If_VehicleSpeed), r_RainIntensity (If_RainIntensity)",9,deterministic_table
+CanComSWC,"p_VehicleSpeed (If_VehicleSpeed), p_CrashStatus (If_CrashStatus)","r_DoorLockStatus (If_DoorLockStatus), r_LightingCommand (If_LightingCommand)",9,deterministic_table
+PowerMgrSWC,"p_PowerState (If_PowerModeControl), p_BatteryVoltage (If_BatteryVoltage)",r_IgnitionSwitch (If_VehicleSpeed),9,deterministic_table
+DiagMgrSWC,p_DiagDtcService (If_DiagDtcService),r_BatteryVoltage (If_BatteryVoltage),9,deterministic_table
+ImmobilizerSWC,p_AuthSecurity (If_AuthSecurity),r_PowerState (If_PowerModeControl),9,deterministic_table

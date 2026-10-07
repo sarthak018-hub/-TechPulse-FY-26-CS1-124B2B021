@@ -1,0 +1,68 @@
+# ==============================================================================
+# AUTOSAR HLD Document Analysis Assistant: Model & Pipeline Configuration
+# Pimpri Chinchwad College of Engineering (PCCOE) - AI & ML Academic Project
+# ==============================================================================
+
+project:
+  project_id: "AUTOSAR_BCM_HLD"
+  title: "AUTOSAR HLD Document Analysis Assistant"
+  version: "1.0.0"
+  advisory_notice: "AI-assisted output. Requires engineer review."
+  compliance_standards:
+    - "AUTOSAR Classic Platform R4.4.0"
+    - "ISO 26262:2018 (Functional Safety up to ASIL-D)"
+    - "ISO 14229-1 (Unified Diagnostic Services - UDS)"
+    - "ISO 11898-1/2 (CAN-FD Physical & Data Link Layer)"
+
+llm:
+  model_name: "qwen2.5:3b"
+  alternative_model: "qwen2.5:7b"
+  backend: "ollama"
+  base_url: "http://localhost:11434"
+  temperature: 0.1
+  top_p: 0.9
+  seed: 42
+  timeout_seconds: 90
+  prompt_injection_defense: true
+  grounding_policy: "strict_context_only"
+
+embedding:
+  model_name: "BAAI/bge-small-en-v1.5"
+  embedding_dimension: 384
+  device: "cpu"
+  normalize_embeddings: true
+  distance_metric: "cosine"
+  batch_size: 32
+
+vector_store:
+  engine: "chromadb"
+  persist_directory: "Code/chroma_db_store"
+  collection_name: "autosar_hld_knowledge"
+  hnsw_space: "cosine"
+
+chunking:
+  chunk_size_chars: 600
+  chunk_overlap_chars: 100
+  split_tables_by_rows: true
+  table_repeat_header: true
+  preserve_markdown_formatting: true
+  metadata_fields:
+    - "doc_id"
+    - "version"
+    - "page"
+    - "section"
+    - "chunk_type"
+    - "project_id"
+
+retrieval:
+  top_k: 4
+  similarity_threshold: 0.68
+  keyword_overlap_threshold: 0.35
+  enable_version_filtering: true
+  enable_type_filtering: true
+
+governance:
+  audit_db_path: "Code/rag_audit_log.db"
+  log_all_queries: true
+  enforce_citations: true
+  disallow_external_apis: true

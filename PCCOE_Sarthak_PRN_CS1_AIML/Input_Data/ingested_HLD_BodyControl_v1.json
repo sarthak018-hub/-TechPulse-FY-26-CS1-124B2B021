@@ -1,0 +1,970 @@
+{
+  "doc_id": "HLD_BodyControl",
+  "version": "v1",
+  "file_name": "HLD_BodyControl_v1.pdf",
+  "file_size_bytes": 32586,
+  "total_pages": 14,
+  "pages": [
+    {
+      "page_number": 1,
+      "content_type": "text",
+      "raw_text": "AUTOMOTIVE OPEN SYSTEM ARCHITECTURE (AUTOSAR)\nHigh-Level Design Specification\nBody Control Module (BCM)\nDocument Identifier: SPEC-AUTOSAR-BCM-HLD-V1\nRelease Level: v1.0 (Baseline Architecture Release)\nProject Title: AUTOSAR HLD Document Analysis Assistant\nAuthor: Department of Computer Engineering / AI & ML Lab\nInstitution: Pimpri Chinchwad College of Engineering (PCCOE), Pune\nClassification: Synthetic Architecture Data (Educational Model)\nDate of Issue: October 2026\nTarget Standard: Classic AUTOSAR Release 4.4.0\nNOTICE: This High-Level Design document contains synthetic architectural models designed for automated retrieval, traceability\nvalidation, and inconsistency reporting. All components, ports, and signals comply with Classic AUTOSAR 4.4 methodology. Advisory\noutput requires engineer review.",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "AUTOMOTIVE OPEN SYSTEM ARCHITECTURE (AUTOSAR)\nHigh-Level Design Specification\nBody Control Module (BCM)\nDocument Identifier: SPEC-AUTOSAR-BCM-HLD-V1\nProject Title: AUTOSAR HLD Document Analysis Assistant\nAuthor: Department of Computer Engineering / AI & ML Lab\nInstitution: Pimpri Chinchwad College of Engineering (PCCOE), Pune\nClassification: Synthetic Architecture Data (Educational Model)\nDate of Issue: October 2026\nTarget Standard: Classic AUTOSAR Release 4.4.0\nNOTICE: This High-Level Design document contains synthetic architectural models designed for automated retrieval, traceability\nvalidation, and inconsistency reporting. All components, ports, and signals comply with Classic AUTOSAR 4.4 methodology. Advisory\noutput requires engineer review."
+        }
+      ],
+      "tables": [],
+      "table_count": 0
+    },
+    {
+      "page_number": 2,
+      "content_type": "table",
+      "raw_text": "Document Control & Revision History\nSection 0.1: Change History Log\nRev\nDate\nAuthor\nChange Description\nApproval Status\n0.1\n2026-01-10\nArch Team\nInitial draft structure and component boundaries\nDraft\n0.5\n2026-02-04\nSystems Lead\nAdded Port/Interface tables and signal cycle times\nReviewed\n1.0\n2026-03-15\nChief Architect\nFormal baseline release v1.0. All 10 SWCs frozen.\nApproved\nSection 0.2: Approvals & Signatures\nRole\nName\nOrganization\nSign Date\nLead Systems Architect\nDr. S. K. Kulkarni\nPCCOE Automotive Lab\n2026-03-16\nSafety Governance Lead\nProf. V. Sharma\nFunctional Safety Board\n2026-03-17\nDiagnostic Verification Lead\nEng. R. Nair\nValidation Group\n2026-03-18\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 2 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "Document Control & Revision History"
+        },
+        {
+          "section_title": "Section 0.1: Change History Log",
+          "content": "Rev\nDate\nAuthor\nChange Description\nApproval Status\n0.1\n2026-01-10\nArch Team\nInitial draft structure and component boundaries\nDraft\n0.5\n2026-02-04\nSystems Lead\nAdded Port/Interface tables and signal cycle times\nReviewed\n1.0\n2026-03-15\nChief Architect\nFormal baseline release v1.0. All 10 SWCs frozen.\nApproved"
+        },
+        {
+          "section_title": "Section 0.2: Approvals & Signatures",
+          "content": "Role\nName\nOrganization\nSign Date\nLead Systems Architect\nDr. S. K. Kulkarni\nPCCOE Automotive Lab\n2026-03-16\nSafety Governance Lead\nProf. V. Sharma\nFunctional Safety Board\n2026-03-17\nDiagnostic Verification Lead\nEng. R. Nair\nValidation Group\n2026-03-18"
+        }
+      ],
+      "tables": [
+        [
+          [
+            "Rev",
+            "Date",
+            "Author",
+            "Change Description",
+            "Approval Status"
+          ],
+          [
+            "0.1",
+            "2026-01-10",
+            "Arch Team",
+            "Initial draft structure and component boundaries",
+            "Draft"
+          ],
+          [
+            "0.5",
+            "2026-02-04",
+            "Systems Lead",
+            "Added Port/Interface tables and signal cycle times",
+            "Reviewed"
+          ],
+          [
+            "1.0",
+            "2026-03-15",
+            "Chief Architect",
+            "Formal baseline release v1.0. All 10 SWCs frozen.",
+            "Approved"
+          ]
+        ],
+        [
+          [
+            "Role",
+            "Name",
+            "Organization",
+            "Sign Date"
+          ],
+          [
+            "Lead Systems Architect",
+            "Dr. S. K. Kulkarni",
+            "PCCOE Automotive Lab",
+            "2026-03-16"
+          ],
+          [
+            "Safety Governance Lead",
+            "Prof. V. Sharma",
+            "Functional Safety Board",
+            "2026-03-17"
+          ],
+          [
+            "Diagnostic Verification Lead",
+            "Eng. R. Nair",
+            "Validation Group",
+            "2026-03-18"
+          ]
+        ]
+      ],
+      "table_count": 2
+    },
+    {
+      "page_number": 3,
+      "content_type": "text",
+      "raw_text": "1. Introduction and Architectural Scope\n1.1 Purpose of the High-Level Design\nThis High-Level Design (HLD) document defines the software architecture, component boundaries, port interfaces, signals,\nand interaction flows for the Body Control Module (BCM ECU). The BCM is responsible for managing core cabin functions\nincluding central door locking, power window automation, exterior lighting schemes, windshield wiper/washer cycles,\nimmobilizer authentication, and diagnostic event recording. The architecture is formalized under Classic AUTOSAR Release\n4.4.0 and targets deployment on a 32-bit automotive microcontroller with dual CAN-FD transceivers and a LIN sub-bus master\ncontroller.\n1.2 System Scope & Operational Boundaries\nThe scope of this document encompasses all Application Software Components (Application SWCs) located above the\nAUTOSAR Runtime Environment (RTE). Basic Software (BSW) services such as the Diagnostic Event Manager (Dem),\nDiagnostic Communication Manager (Dcm), CAN State Manager (CanSM), and Operating System (OS) are referenced via\nstandardized Service Ports and BSW bridges.\nIn-Scope Functional Domains:\n\u2022 Central Door Locking, child lock supervision, and crash-triggered emergency unlocking.\n\u2022 Smart Power Window control with express motion and anti-pinch safety algorithms.\n\u2022 Exterior Lighting (headlamps, turn signals, hazard lights) and ambient illumination.\n\u2022 Rain-sensing wiper intervals, high/low speed control, and washer fluid pump cycling.\n\u2022 Power state transitions between Active, Standby, and Low Voltage Sleep modes.\nOut-of-Scope Domains:\n\u2022 Powertrain management, engine start sequence, and high-voltage battery charging.\n\u2022 Hardware PCB layout schematics and low-level MCAL register definitions.\n1.3 Architectural Standards & Compliance\nAll software specifications in this document adhere to the following normative automotive standards:\n1. AUTOSAR CP R4.4.0: Component model, virtual function bus concepts, and standardized interface templates.\n2. ISO 26262:2018: Road Vehicles - Functional Safety (governing safety integrity levels up to ASIL-D).\n3. ISO 14229-1 (UDS): Unified Diagnostic Services on Controller Area Network.\n4. ISO 11898-1/2: Controller Area Network (CAN-FD) data link layer and physical transmission.\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 3 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "1. Introduction and Architectural Scope"
+        },
+        {
+          "section_title": "1.1 Purpose of the High-Level Design",
+          "content": "This High-Level Design (HLD) document defines the software architecture, component boundaries, port interfaces, signals,\nand interaction flows for the Body Control Module (BCM ECU). The BCM is responsible for managing core cabin functions\nincluding central door locking, power window automation, exterior lighting schemes, windshield wiper/washer cycles,\nimmobilizer authentication, and diagnostic event recording. The architecture is formalized under Classic AUTOSAR Release\n4.4.0 and targets deployment on a 32-bit automotive microcontroller with dual CAN-FD transceivers and a LIN sub-bus master\ncontroller."
+        },
+        {
+          "section_title": "1.2 System Scope & Operational Boundaries",
+          "content": "The scope of this document encompasses all Application Software Components (Application SWCs) located above the\nAUTOSAR Runtime Environment (RTE). Basic Software (BSW) services such as the Diagnostic Event Manager (Dem),\nDiagnostic Communication Manager (Dcm), CAN State Manager (CanSM), and Operating System (OS) are referenced via\nstandardized Service Ports and BSW bridges.\nIn-Scope Functional Domains:\n\u2022 Central Door Locking, child lock supervision, and crash-triggered emergency unlocking.\n\u2022 Smart Power Window control with express motion and anti-pinch safety algorithms.\n\u2022 Exterior Lighting (headlamps, turn signals, hazard lights) and ambient illumination.\n\u2022 Rain-sensing wiper intervals, high/low speed control, and washer fluid pump cycling.\n\u2022 Power state transitions between Active, Standby, and Low Voltage Sleep modes.\nOut-of-Scope Domains:\n\u2022 Powertrain management, engine start sequence, and high-voltage battery charging.\n\u2022 Hardware PCB layout schematics and low-level MCAL register definitions."
+        },
+        {
+          "section_title": "1.3 Architectural Standards & Compliance",
+          "content": "All software specifications in this document adhere to the following normative automotive standards:\n1. AUTOSAR CP R4.4.0: Component model, virtual function bus concepts, and standardized interface templates.\n2. ISO 26262:2018: Road Vehicles - Functional Safety (governing safety integrity levels up to ASIL-D).\n3. ISO 14229-1 (UDS): Unified Diagnostic Services on Controller Area Network.\n4. ISO 11898-1/2: Controller Area Network (CAN-FD) data link layer and physical transmission."
+        }
+      ],
+      "tables": [],
+      "table_count": 0
+    },
+    {
+      "page_number": 4,
+      "content_type": "table",
+      "raw_text": "2. System Context and Hardware Boundary\n2.1 BCM Physical Context\nThe BCM ECU acts as the primary gateway and actuator control center for vehicular body electronics. It interfaces directly with\nthe central vehicle gateway over a 500 kbps / 2 Mbps CAN-FD network (Channel 1) and commands smart sub-actuators and\nsensors via a 19.2 kbps LIN sub-bus (Channel 0).\nPhysical Transceivers & Interfaces:\n\u2022 Dual high-speed CAN-FD transceivers supporting ISO 11898-2 with wake-up over bus capability.\n\u2022 Single-wire LIN master transceiver compliant with LIN 2.2A.\n\u2022 High-Side Smart Drivers (PROFET) for direct actuation of exterior lamps, wiper motors, and latch coils.\n\u2022 Configurable analog/digital input channels with low-pass hardware filtering for door switches.\n2.2 ECU Power Supply & Operating States\nThe module operates under nominal 12V automotive battery voltage (operating range: 9.0V to 16.0V DC). Extended crank\noperating capability is maintained down to 6.0V DC for 500ms. Overvoltage protection isolates actuator stages when battery\nvoltage exceeds 18.0V DC.\nPower Modes:\n1. RUN Mode (Active): Microcontroller at 80 MHz, all SWC runnables executed periodically, full CAN/LIN transmission.\n2. STANDBY Mode: Core clock reduced to 8 MHz, actuators unpowered, CAN transceiver listening for network management\nframes.\n3. SLEEP Mode: Deep quiescent state (< 100 \u00b5A current draw), wake-up initiated only via keyless remote or door handle pull\nswitch.\n2.3 Safety Concept & ASIL Allocation Matrix\nFunction / SWC\nHazard Scenario\nSafety Goal\nASIL\nDoorLockSWC\nDoors remain locked during collision\nUnlock all latches within 30ms of crash detection\nASIL-B\nWindowCtrlSWC\nPinch injury during automatic window close\nReverse motor within 50ms upon obstacle force >\n100N\nASIL-A\nLightingMgrSWC\nTotal loss of forward illumination at night\nMaintain low beam or activate backup parking lamp\nASIL-B\nWiperWasherSWC\nWiper stalls during heavy rain at speed\nExecute limp-home slow sweep mode\nASIL-A\nImmobilizerSWC\nUnauthorized engine start without valid key\nPrevent immobilizer token release\nQM\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 4 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "2. System Context and Hardware Boundary"
+        },
+        {
+          "section_title": "2.1 BCM Physical Context",
+          "content": "The BCM ECU acts as the primary gateway and actuator control center for vehicular body electronics. It interfaces directly with\nthe central vehicle gateway over a 500 kbps / 2 Mbps CAN-FD network (Channel 1) and commands smart sub-actuators and\nsensors via a 19.2 kbps LIN sub-bus (Channel 0).\nPhysical Transceivers & Interfaces:\n\u2022 Dual high-speed CAN-FD transceivers supporting ISO 11898-2 with wake-up over bus capability.\n\u2022 Single-wire LIN master transceiver compliant with LIN 2.2A.\n\u2022 High-Side Smart Drivers (PROFET) for direct actuation of exterior lamps, wiper motors, and latch coils.\n\u2022 Configurable analog/digital input channels with low-pass hardware filtering for door switches."
+        },
+        {
+          "section_title": "2.2 ECU Power Supply & Operating States",
+          "content": "The module operates under nominal 12V automotive battery voltage (operating range: 9.0V to 16.0V DC). Extended crank\noperating capability is maintained down to 6.0V DC for 500ms. Overvoltage protection isolates actuator stages when battery\nvoltage exceeds 18.0V DC.\nPower Modes:\n1. RUN Mode (Active): Microcontroller at 80 MHz, all SWC runnables executed periodically, full CAN/LIN transmission.\n2. STANDBY Mode: Core clock reduced to 8 MHz, actuators unpowered, CAN transceiver listening for network management\nframes.\n3. SLEEP Mode: Deep quiescent state (< 100 \u00b5A current draw), wake-up initiated only via keyless remote or door handle pull\nswitch."
+        },
+        {
+          "section_title": "2.3 Safety Concept & ASIL Allocation Matrix",
+          "content": "Function / SWC\nHazard Scenario\nSafety Goal\nASIL\nDoorLockSWC\nDoors remain locked during collision\nUnlock all latches within 30ms of crash detection\nASIL-B\nWindowCtrlSWC\nPinch injury during automatic window close\nReverse motor within 50ms upon obstacle force >\n100N\nASIL-A\nLightingMgrSWC\nTotal loss of forward illumination at night\nMaintain low beam or activate backup parking lamp\nASIL-B\nWiperWasherSWC\nWiper stalls during heavy rain at speed\nExecute limp-home slow sweep mode\nASIL-A\nImmobilizerSWC\nUnauthorized engine start without valid key\nPrevent immobilizer token release\nQM"
+        }
+      ],
+      "tables": [
+        [
+          [
+            "Function / SWC",
+            "Hazard Scenario",
+            "Safety Goal",
+            "ASIL"
+          ],
+          [
+            "DoorLockSWC",
+            "Doors remain locked during collision",
+            "Unlock all latches within 30ms of crash detection",
+            "ASIL-B"
+          ],
+          [
+            "WindowCtrlSWC",
+            "Pinch injury during automatic window close",
+            "Reverse motor within 50ms upon obstacle force > 100N",
+            "ASIL-A"
+          ],
+          [
+            "LightingMgrSWC",
+            "Total loss of forward illumination at night",
+            "Maintain low beam or activate backup parking lamp",
+            "ASIL-B"
+          ],
+          [
+            "WiperWasherSWC",
+            "Wiper stalls during heavy rain at speed",
+            "Execute limp-home slow sweep mode",
+            "ASIL-A"
+          ],
+          [
+            "ImmobilizerSWC",
+            "Unauthorized engine start without valid key",
+            "Prevent immobilizer token release",
+            "QM"
+          ]
+        ]
+      ],
+      "table_count": 1
+    },
+    {
+      "page_number": 5,
+      "content_type": "table",
+      "raw_text": "3. AUTOSAR Architecture Overview & 4. Software Components\n3.1 Layered Structure & Virtual Function Bus (VFB)\nThe BCM architecture is partitioned into four primary AUTOSAR layers: Application Layer (10 Application SWCs), Runtime\nEnvironment (RTE), Basic Software (BSW), and Microcontroller Abstraction Layer (MCAL). All inter-SWC communication flows\nstrictly through formal Ports and Interfaces across the RTE.\n4.1 Software Component (SWC) Inventory\nThe system defines 10 core Application Software Components:\nComponent Name\nType\nASIL\nPeriod\nFunctional Description\nDoorLockSWC\nApplication\nASIL-B\n20 ms\nCentral door locking, child safety, auto-lock at 15 km/h, and\nemergency crash unlock override.\nWindowCtrlSWC\nApplication\nASIL-A\n20 ms\nPower window motor positioning, express movement, and anti-pinch\nsafety reverse algorithms.\nLightingMgrSWC\nApplication\nASIL-B\n20 ms\nHeadlamps, turn signals, hazard emergency flashers, and interior\nambient lighting.\nWiperWasherSWC\nApplication\nASIL-A\n50 ms\nRain sensor processing, intermittent wiper pacing, and washer pump\nmotor control.\nImmobilizerSWC\nApplication\nQM\n100 ms\nTransponder key challenge-response cryptographic authentication\nwith engine ECM.\nSeatAdjustmentSWC\nApplication\nQM\n100 ms\nElectric seat adjustment motors, Hall sensor feedback, and user\nmemory presets.\nCanComSWC\nService Bridge\nASIL-B\n10 ms\nCAN-FD frame serialization, signal filtering, E2E protection, and\nnetwork management.\nLinComSWC\nService Bridge\nQM\n20 ms\nLIN master coordinator for rain sensor, mirror sub-nodes, and smart\nambient LEDs.\nDiagMgrSWC\nDiagnostics\nASIL-B\n100 ms\nUDS ISO 14229 services, DTC fault logging, and freeze-frame\nsnapshot capture.\nPowerMgrSWC\nMode Control\nASIL-B\n20 ms\nECU operational modes (Active, Standby, Sleep) and battery\nlow-voltage load shedding.\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 5 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "3. AUTOSAR Architecture Overview & 4. Software Components"
+        },
+        {
+          "section_title": "3.1 Layered Structure & Virtual Function Bus (VFB)",
+          "content": "The BCM architecture is partitioned into four primary AUTOSAR layers: Application Layer (10 Application SWCs), Runtime\nEnvironment (RTE), Basic Software (BSW), and Microcontroller Abstraction Layer (MCAL). All inter-SWC communication flows\nstrictly through formal Ports and Interfaces across the RTE."
+        },
+        {
+          "section_title": "4.1 Software Component (SWC) Inventory",
+          "content": "The system defines 10 core Application Software Components:\nComponent Name\nType\nASIL\nPeriod\nFunctional Description\nDoorLockSWC\nApplication\nASIL-B\n20 ms\nCentral door locking, child safety, auto-lock at 15 km/h, and\nemergency crash unlock override.\nWindowCtrlSWC\nApplication\nASIL-A\n20 ms\nPower window motor positioning, express movement, and anti-pinch\nsafety reverse algorithms.\nLightingMgrSWC\nApplication\nASIL-B\n20 ms\nHeadlamps, turn signals, hazard emergency flashers, and interior\nambient lighting.\nWiperWasherSWC\nApplication\nASIL-A\n50 ms\nRain sensor processing, intermittent wiper pacing, and washer pump\nmotor control.\nImmobilizerSWC\nApplication\nQM\n100 ms\nTransponder key challenge-response cryptographic authentication\nwith engine ECM.\nSeatAdjustmentSWC\nApplication\nQM\n100 ms\nElectric seat adjustment motors, Hall sensor feedback, and user\nmemory presets.\nCanComSWC\nService Bridge\nASIL-B\n10 ms\nCAN-FD frame serialization, signal filtering, E2E protection, and\nnetwork management.\nLinComSWC\nService Bridge\nQM\n20 ms\nLIN master coordinator for rain sensor, mirror sub-nodes, and smart\nambient LEDs.\nDiagMgrSWC\nDiagnostics\nASIL-B\n100 ms\nUDS ISO 14229 services, DTC fault logging, and freeze-frame\nsnapshot capture.\nPowerMgrSWC\nMode Control\nASIL-B\n20 ms\nECU operational modes (Active, Standby, Sleep) and battery\nlow-voltage load shedding."
+        }
+      ],
+      "tables": [
+        [
+          [
+            "Component Name",
+            "Type",
+            "ASIL",
+            "Period",
+            "Functional Description"
+          ],
+          [
+            "DoorLockSWC",
+            "Application",
+            "ASIL-B",
+            "20 ms",
+            "Central door locking, child safety, auto-lock at 15 km/h, and emergency crash unlock override."
+          ],
+          [
+            "WindowCtrlSWC",
+            "Application",
+            "ASIL-A",
+            "20 ms",
+            "Power window motor positioning, express movement, and anti-pinch safety reverse algorithms."
+          ],
+          [
+            "LightingMgrSWC",
+            "Application",
+            "ASIL-B",
+            "20 ms",
+            "Headlamps, turn signals, hazard emergency flashers, and interior ambient lighting."
+          ],
+          [
+            "WiperWasherSWC",
+            "Application",
+            "ASIL-A",
+            "50 ms",
+            "Rain sensor processing, intermittent wiper pacing, and washer pump motor control."
+          ],
+          [
+            "ImmobilizerSWC",
+            "Application",
+            "QM",
+            "100 ms",
+            "Transponder key challenge-response cryptographic authentication with engine ECM."
+          ],
+          [
+            "SeatAdjustmentSWC",
+            "Application",
+            "QM",
+            "100 ms",
+            "Electric seat adjustment motors, Hall sensor feedback, and user memory presets."
+          ],
+          [
+            "CanComSWC",
+            "Service Bridge",
+            "ASIL-B",
+            "10 ms",
+            "CAN-FD frame serialization, signal filtering, E2E protection, and network management."
+          ],
+          [
+            "LinComSWC",
+            "Service Bridge",
+            "QM",
+            "20 ms",
+            "LIN master coordinator for rain sensor, mirror sub-nodes, and smart ambient LEDs."
+          ],
+          [
+            "DiagMgrSWC",
+            "Diagnostics",
+            "ASIL-B",
+            "100 ms",
+            "UDS ISO 14229 services, DTC fault logging, and freeze-frame snapshot capture."
+          ],
+          [
+            "PowerMgrSWC",
+            "Mode Control",
+            "ASIL-B",
+            "20 ms",
+            "ECU operational modes (Active, Standby, Sleep) and battery low-voltage load shedding."
+          ]
+        ]
+      ],
+      "table_count": 1
+    },
+    {
+      "page_number": 6,
+      "content_type": "table",
+      "raw_text": "5. Port and Interface Catalog\n5.1 Sender-Receiver (S/R) Interfaces\nThe table below specifies all Sender-Receiver interfaces, data elements, data types, and units:\nInterface Name\nData Element\nData Type\nRange / Enum\nUnit\nIf_DoorLockStatus\nDoorLockState\nUint8\n0:UNLOCKED, 1:LOCKED,\n2:DEADLOCK\nEnum\nIf_DoorLockStatus\nChildLockActive\nBoolean\n0:False, 1:True\nFlag\nIf_WindowState\nWindowPosition_FL\nUint8\n0 to 100\n% Open\nIf_WindowState\nAntiPinchTriggered\nBoolean\n0:False, 1:True\nFlag\nIf_LightingCommand\nExteriorLightMode\nUint8\n0:OFF, 1:PARK, 2:LOW, 3:HIGH\nEnum\nIf_LightingCommand\nHazardActive\nBoolean\n0:False, 1:True\nFlag\nIf_VehicleSpeed\nVehicleSpeedKmh\nUint16\n0 to 350\nkm/h\nIf_BatteryVoltage\nSupplyVoltage_mV\nUint16\n0 to 32000\nmV\nIf_BatteryVoltage\nLowVoltageWarning\nBoolean\n0:False, 1:True\nFlag\nIf_WiperSpeedCmd\nWiperSpeedMode\nUint8\n0:OFF, 1:INT1, 2:INT2, 3:LOW,\n4:HIGH\nEnum\nIf_RainIntensity\nRainSensorLevel\nUint8\n0 to 255\nRaw Lux\nIf_CrashStatus\nCrashDetected\nBoolean\n0:No Crash, 1:Crash Event\nFlag\n5.2 Client-Server (C/S) Interfaces\nInterface Name\nOperation\nArgument (Direction: Type)\nReturn Type\nIf_AuthSecurity\nAuthenticateKey\nIN seed: Uint32, OUT key: Uint32\nStd_ReturnType\nIf_DiagDtcService\nSetDTC\nIN dtcId: Uint32, IN status: Uint8\nStd_ReturnType\nIf_PowerModeControl\nRequestPowerState\nIN targetState: Uint8, OUT ack: Boolean\nStd_ReturnType\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 6 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "5. Port and Interface Catalog"
+        },
+        {
+          "section_title": "5.1 Sender-Receiver (S/R) Interfaces",
+          "content": "The table below specifies all Sender-Receiver interfaces, data elements, data types, and units:\nInterface Name\nData Element\nData Type\nRange / Enum\nUnit\nIf_DoorLockStatus\nDoorLockState\nUint8\n0:UNLOCKED, 1:LOCKED,\n2:DEADLOCK\nEnum\nIf_DoorLockStatus\nChildLockActive\nBoolean\n0:False, 1:True\nFlag\nIf_WindowState\nWindowPosition_FL\nUint8\n0 to 100\n% Open\nIf_WindowState\nAntiPinchTriggered\nBoolean\n0:False, 1:True\nFlag\nIf_LightingCommand\nExteriorLightMode\nUint8\n0:OFF, 1:PARK, 2:LOW, 3:HIGH\nEnum\nIf_LightingCommand\nHazardActive\nBoolean\n0:False, 1:True\nFlag\nIf_VehicleSpeed\nVehicleSpeedKmh\nUint16\n0 to 350\nkm/h\nIf_BatteryVoltage\nSupplyVoltage_mV\nUint16\n0 to 32000\nmV\nIf_BatteryVoltage\nLowVoltageWarning\nBoolean\n0:False, 1:True\nFlag\nIf_WiperSpeedCmd\nWiperSpeedMode\nUint8\n0:OFF, 1:INT1, 2:INT2, 3:LOW,\n4:HIGH\nEnum\nIf_RainIntensity\nRainSensorLevel\nUint8\n0 to 255\nRaw Lux\nIf_CrashStatus\nCrashDetected\nBoolean\n0:No Crash, 1:Crash Event\nFlag"
+        },
+        {
+          "section_title": "5.2 Client-Server (C/S) Interfaces",
+          "content": "Interface Name\nOperation\nArgument (Direction: Type)\nReturn Type\nIf_AuthSecurity\nAuthenticateKey\nIN seed: Uint32, OUT key: Uint32\nStd_ReturnType\nIf_DiagDtcService\nSetDTC\nIN dtcId: Uint32, IN status: Uint8\nStd_ReturnType\nIf_PowerModeControl\nRequestPowerState\nIN targetState: Uint8, OUT ack: Boolean\nStd_ReturnType"
+        }
+      ],
+      "tables": [
+        [
+          [
+            "Interface Name",
+            "Data Element",
+            "Data Type",
+            "Range / Enum",
+            "Unit"
+          ],
+          [
+            "If_DoorLockStatus",
+            "DoorLockState",
+            "Uint8",
+            "0:UNLOCKED, 1:LOCKED, 2:DEADLOCK",
+            "Enum"
+          ],
+          [
+            "If_DoorLockStatus",
+            "ChildLockActive",
+            "Boolean",
+            "0:False, 1:True",
+            "Flag"
+          ],
+          [
+            "If_WindowState",
+            "WindowPosition_FL",
+            "Uint8",
+            "0 to 100",
+            "% Open"
+          ],
+          [
+            "If_WindowState",
+            "AntiPinchTriggered",
+            "Boolean",
+            "0:False, 1:True",
+            "Flag"
+          ],
+          [
+            "If_LightingCommand",
+            "ExteriorLightMode",
+            "Uint8",
+            "0:OFF, 1:PARK, 2:LOW, 3:HIGH",
+            "Enum"
+          ],
+          [
+            "If_LightingCommand",
+            "HazardActive",
+            "Boolean",
+            "0:False, 1:True",
+            "Flag"
+          ],
+          [
+            "If_VehicleSpeed",
+            "VehicleSpeedKmh",
+            "Uint16",
+            "0 to 350",
+            "km/h"
+          ],
+          [
+            "If_BatteryVoltage",
+            "SupplyVoltage_mV",
+            "Uint16",
+            "0 to 32000",
+            "mV"
+          ],
+          [
+            "If_BatteryVoltage",
+            "LowVoltageWarning",
+            "Boolean",
+            "0:False, 1:True",
+            "Flag"
+          ],
+          [
+            "If_WiperSpeedCmd",
+            "WiperSpeedMode",
+            "Uint8",
+            "0:OFF, 1:INT1, 2:INT2, 3:LOW, 4:HIGH",
+            "Enum"
+          ],
+          [
+            "If_RainIntensity",
+            "RainSensorLevel",
+            "Uint8",
+            "0 to 255",
+            "Raw Lux"
+          ],
+          [
+            "If_CrashStatus",
+            "CrashDetected",
+            "Boolean",
+            "0:No Crash, 1:Crash Event",
+            "Flag"
+          ]
+        ],
+        [
+          [
+            "Interface Name",
+            "Operation",
+            "Argument (Direction: Type)",
+            "Return Type"
+          ],
+          [
+            "If_AuthSecurity",
+            "AuthenticateKey",
+            "IN seed: Uint32, OUT key: Uint32",
+            "Std_ReturnType"
+          ],
+          [
+            "If_DiagDtcService",
+            "SetDTC",
+            "IN dtcId: Uint32, IN status: Uint8",
+            "Std_ReturnType"
+          ],
+          [
+            "If_PowerModeControl",
+            "RequestPowerState",
+            "IN targetState: Uint8, OUT ack: Boolean",
+            "Std_ReturnType"
+          ]
+        ]
+      ],
+      "table_count": 2
+    },
+    {
+      "page_number": 7,
+      "content_type": "text",
+      "raw_text": "5.3 Core Component Functional Profiles\nProfiles for DoorLockSWC, WindowCtrlSWC, LightingMgrSWC, and DiagMgrSWC:\nDoorLockSWC (Safety: ASIL-B)\nFunctional Behavior: Central door locking, auto-lock above 15 km/h, and emergency crash unlock within 30ms.\nRunnable Entities: Runnable_DoorLock_20ms (Cyclic evaluation), Runnable_DoorLock_CrashEvent (Event interrupt).\nWindowCtrlSWC (Safety: ASIL-A)\nFunctional Behavior: Express power window motion and anti-pinch safety reversal upon force > 100N.\nRunnable Entities: Runnable_WindowCtrl_20ms (Positioning loop), Runnable_PinchDetect_10ms (Current feedback).\nLightingMgrSWC (Safety: ASIL-B)\nFunctional Behavior: Exterior headlamps, turn signal flashers, and emergency hazard flashers at 1.5 Hz.\nRunnable Entities: Runnable_Lighting_20ms (Arbitration), Runnable_HazardFlash_250ms (Cadence square-wave).\nDiagMgrSWC (Safety: ASIL-B)\nFunctional Behavior: UDS ISO 14229 services, DTC fault logging, and non-volatile freeze-frame records.\nRunnable Entities: Runnable_Diag_100ms (Debounce counters), Runnable_UdsService_Handler (Diagnostic messages).\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 7 of 14",
+      "sections": [
+        {
+          "section_title": "5.3 Core Component Functional Profiles",
+          "content": "Profiles for DoorLockSWC, WindowCtrlSWC, LightingMgrSWC, and DiagMgrSWC:\nDoorLockSWC (Safety: ASIL-B)\nFunctional Behavior: Central door locking, auto-lock above 15 km/h, and emergency crash unlock within 30ms.\nRunnable Entities: Runnable_DoorLock_20ms (Cyclic evaluation), Runnable_DoorLock_CrashEvent (Event interrupt).\nWindowCtrlSWC (Safety: ASIL-A)\nFunctional Behavior: Express power window motion and anti-pinch safety reversal upon force > 100N.\nRunnable Entities: Runnable_WindowCtrl_20ms (Positioning loop), Runnable_PinchDetect_10ms (Current feedback).\nLightingMgrSWC (Safety: ASIL-B)\nFunctional Behavior: Exterior headlamps, turn signal flashers, and emergency hazard flashers at 1.5 Hz.\nRunnable Entities: Runnable_Lighting_20ms (Arbitration), Runnable_HazardFlash_250ms (Cadence square-wave).\nDiagMgrSWC (Safety: ASIL-B)\nFunctional Behavior: UDS ISO 14229 services, DTC fault logging, and non-volatile freeze-frame records.\nRunnable Entities: Runnable_Diag_100ms (Debounce counters), Runnable_UdsService_Handler (Diagnostic messages)."
+        }
+      ],
+      "tables": [],
+      "table_count": 0
+    },
+    {
+      "page_number": 8,
+      "content_type": "table",
+      "raw_text": "6. Signal List, Data Mapping and Bus Allocation\n6.1 CAN-FD & LIN Signal Table\nThe following table details every network signal mapped to CAN-FD (Channel 1) or LIN (Channel 0):\nSignal Name\nType\nCycle\nBus\nSource SWC\nDestination SWC\nSig_DoorState_FrontLeft\nUint8\n20 ms\nCAN-FD\nCanComSWC\nDoorLockSWC\nSig_AutoLockSpeedThreshold\nUint16\n100 ms\nCAN-FD\nCanComSWC\nDoorLockSWC\nSig_CrashNotification\nBoolean\n10 ms\nCAN-FD\nCanComSWC\nDoorLockSWC\nSig_HeadlampStatus\nUint8\n50 ms\nCAN-FD\nLightingMgrSWC\nCanComSWC\nSig_RainSensorVal\nUint8\n100 ms\nLIN\nLinComSWC\nWiperWasherSWC\nSig_WindowObstacleDetected\nBoolean\n20 ms\nInternal\nWindowCtrlSWC\nDiagMgrSWC\nSig_BatterySupplyMV\nUint16\n1000 ms\nInternal\nPowerMgrSWC\nDiagMgrSWC\nSig_IgnitionSwitchPos\nUint8\n20 ms\nCAN-FD\nCanComSWC\nPowerMgrSWC\nSig_TurnSignalRequest\nUint8\n50 ms\nCAN-FD\nLightingMgrSWC\nCanComSWC\nSig_SeatMemoryPresetIndex\nUint8\n200 ms\nCAN-FD\nSeatAdjustmentSWC\nCanComSWC\nSig_WiperParkPosition\nBoolean\n50 ms\nInternal\nWiperWasherSWC\nCanComSWC\nSig_AmbientBrightnessLux\nUint16\n500 ms\nLIN\nLinComSWC\nLightingMgrSWC\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 8 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "6. Signal List, Data Mapping and Bus Allocation"
+        },
+        {
+          "section_title": "6.1 CAN-FD & LIN Signal Table",
+          "content": "The following table details every network signal mapped to CAN-FD (Channel 1) or LIN (Channel 0):\nSignal Name\nType\nCycle\nBus\nSource SWC\nDestination SWC\nSig_DoorState_FrontLeft\nUint8\n20 ms\nCAN-FD\nCanComSWC\nDoorLockSWC\nSig_AutoLockSpeedThreshold\nUint16\n100 ms\nCAN-FD\nCanComSWC\nDoorLockSWC\nSig_CrashNotification\nBoolean\n10 ms\nCAN-FD\nCanComSWC\nDoorLockSWC\nSig_HeadlampStatus\nUint8\n50 ms\nCAN-FD\nLightingMgrSWC\nCanComSWC\nSig_RainSensorVal\nUint8\n100 ms\nLIN\nLinComSWC\nWiperWasherSWC\nSig_WindowObstacleDetected\nBoolean\n20 ms\nInternal\nWindowCtrlSWC\nDiagMgrSWC\nSig_BatterySupplyMV\nUint16\n1000 ms\nInternal\nPowerMgrSWC\nDiagMgrSWC\nSig_IgnitionSwitchPos\nUint8\n20 ms\nCAN-FD\nCanComSWC\nPowerMgrSWC\nSig_TurnSignalRequest\nUint8\n50 ms\nCAN-FD\nLightingMgrSWC\nCanComSWC\nSig_SeatMemoryPresetIndex\nUint8\n200 ms\nCAN-FD\nSeatAdjustmentSWC\nCanComSWC\nSig_WiperParkPosition\nBoolean\n50 ms\nInternal\nWiperWasherSWC\nCanComSWC\nSig_AmbientBrightnessLux\nUint16\n500 ms\nLIN\nLinComSWC\nLightingMgrSWC"
+        }
+      ],
+      "tables": [
+        [
+          [
+            "Signal Name",
+            "Type",
+            "Cycle",
+            "Bus",
+            "Source SWC",
+            "Destination SWC"
+          ],
+          [
+            "Sig_DoorState_FrontLeft",
+            "Uint8",
+            "20 ms",
+            "CAN-FD",
+            "CanComSWC",
+            "DoorLockSWC"
+          ],
+          [
+            "Sig_AutoLockSpeedThreshold",
+            "Uint16",
+            "100 ms",
+            "CAN-FD",
+            "CanComSWC",
+            "DoorLockSWC"
+          ],
+          [
+            "Sig_CrashNotification",
+            "Boolean",
+            "10 ms",
+            "CAN-FD",
+            "CanComSWC",
+            "DoorLockSWC"
+          ],
+          [
+            "Sig_HeadlampStatus",
+            "Uint8",
+            "50 ms",
+            "CAN-FD",
+            "LightingMgrSWC",
+            "CanComSWC"
+          ],
+          [
+            "Sig_RainSensorVal",
+            "Uint8",
+            "100 ms",
+            "LIN",
+            "LinComSWC",
+            "WiperWasherSWC"
+          ],
+          [
+            "Sig_WindowObstacleDetected",
+            "Boolean",
+            "20 ms",
+            "Internal",
+            "WindowCtrlSWC",
+            "DiagMgrSWC"
+          ],
+          [
+            "Sig_BatterySupplyMV",
+            "Uint16",
+            "1000 ms",
+            "Internal",
+            "PowerMgrSWC",
+            "DiagMgrSWC"
+          ],
+          [
+            "Sig_IgnitionSwitchPos",
+            "Uint8",
+            "20 ms",
+            "CAN-FD",
+            "CanComSWC",
+            "PowerMgrSWC"
+          ],
+          [
+            "Sig_TurnSignalRequest",
+            "Uint8",
+            "50 ms",
+            "CAN-FD",
+            "LightingMgrSWC",
+            "CanComSWC"
+          ],
+          [
+            "Sig_SeatMemoryPresetIndex",
+            "Uint8",
+            "200 ms",
+            "CAN-FD",
+            "SeatAdjustmentSWC",
+            "CanComSWC"
+          ],
+          [
+            "Sig_WiperParkPosition",
+            "Boolean",
+            "50 ms",
+            "Internal",
+            "WiperWasherSWC",
+            "CanComSWC"
+          ],
+          [
+            "Sig_AmbientBrightnessLux",
+            "Uint16",
+            "500 ms",
+            "LIN",
+            "LinComSWC",
+            "LightingMgrSWC"
+          ]
+        ]
+      ],
+      "table_count": 1
+    },
+    {
+      "page_number": 9,
+      "content_type": "table",
+      "raw_text": "7. Component Dependencies and Port Connections\n7.1 Component Port Bindings\nThe following table details Provided Ports (PPorts) and Required Ports (RPorts) across key SWCs:\nSoftware Component\nProvided Ports (PPort)\nRequired Ports (RPort)\nDoorLockSWC\np_DoorLockStatus (If_DoorLockStatus)\nr_VehicleSpeed (If_VehicleSpeed), r_CrashStatus\n(If_CrashStatus), r_PowerState (If_PowerModeControl)\nWindowCtrlSWC\np_WindowState (If_WindowState)\nr_VehicleSpeed (If_VehicleSpeed), r_PowerState\n(If_PowerModeControl)\nLightingMgrSWC\np_LightingCommand (If_LightingCommand)\nr_PowerState (If_PowerModeControl), r_CrashStatus\n(If_CrashStatus)\nWiperWasherSWC\np_WiperSpeedCmd (If_WiperSpeedCmd)\nr_VehicleSpeed (If_VehicleSpeed), r_RainIntensity\n(If_RainIntensity)\nCanComSWC\np_VehicleSpeed (If_VehicleSpeed),\np_CrashStatus (If_CrashStatus)\nr_DoorLockStatus (If_DoorLockStatus),\nr_LightingCommand (If_LightingCommand)\nPowerMgrSWC\np_PowerState (If_PowerModeControl),\np_BatteryVoltage (If_BatteryVoltage)\nr_IgnitionSwitch (If_VehicleSpeed)\nDiagMgrSWC\np_DiagDtcService (If_DiagDtcService)\nr_BatteryVoltage (If_BatteryVoltage)\nImmobilizerSWC\np_AuthSecurity (If_AuthSecurity)\nr_PowerState (If_PowerModeControl)\n7.2 Coupling Constraints & Power Shedding Rules\n1. Safety Priority: DoorLockSWC and LightingMgrSWC must prioritize signals originating from p_CrashStatus above all\nconvenience and user switch requests.\n2. Coupling Rules: Inter-SWC communication flows exclusively through intermediate RTE buffers.\n3. Power Shedding: If SupplyVoltage_mV drops below 10,500 mV, PowerMgrSWC sheds seat heaters, power windows, and\nambient lighting sequentially.\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 9 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "7. Component Dependencies and Port Connections"
+        },
+        {
+          "section_title": "7.1 Component Port Bindings",
+          "content": "The following table details Provided Ports (PPorts) and Required Ports (RPorts) across key SWCs:\nSoftware Component\nProvided Ports (PPort)\nRequired Ports (RPort)\nDoorLockSWC\np_DoorLockStatus (If_DoorLockStatus)\nr_VehicleSpeed (If_VehicleSpeed), r_CrashStatus\n(If_CrashStatus), r_PowerState (If_PowerModeControl)\nWindowCtrlSWC\np_WindowState (If_WindowState)\nr_VehicleSpeed (If_VehicleSpeed), r_PowerState\n(If_PowerModeControl)\nLightingMgrSWC\np_LightingCommand (If_LightingCommand)\nr_PowerState (If_PowerModeControl), r_CrashStatus\n(If_CrashStatus)\nWiperWasherSWC\np_WiperSpeedCmd (If_WiperSpeedCmd)\nr_VehicleSpeed (If_VehicleSpeed), r_RainIntensity\n(If_RainIntensity)\nCanComSWC\np_VehicleSpeed (If_VehicleSpeed),\np_CrashStatus (If_CrashStatus)\nr_DoorLockStatus (If_DoorLockStatus),\nr_LightingCommand (If_LightingCommand)\nPowerMgrSWC\np_PowerState (If_PowerModeControl),\np_BatteryVoltage (If_BatteryVoltage)\nr_IgnitionSwitch (If_VehicleSpeed)\nDiagMgrSWC\np_DiagDtcService (If_DiagDtcService)\nr_BatteryVoltage (If_BatteryVoltage)\nImmobilizerSWC\np_AuthSecurity (If_AuthSecurity)\nr_PowerState (If_PowerModeControl)"
+        },
+        {
+          "section_title": "7.2 Coupling Constraints & Power Shedding Rules",
+          "content": "1. Safety Priority: DoorLockSWC and LightingMgrSWC must prioritize signals originating from p_CrashStatus above all\nconvenience and user switch requests.\n2. Coupling Rules: Inter-SWC communication flows exclusively through intermediate RTE buffers.\n3. Power Shedding: If SupplyVoltage_mV drops below 10,500 mV, PowerMgrSWC sheds seat heaters, power windows, and\nambient lighting sequentially."
+        }
+      ],
+      "tables": [
+        [
+          [
+            "Software Component",
+            "Provided Ports (PPort)",
+            "Required Ports (RPort)"
+          ],
+          [
+            "DoorLockSWC",
+            "p_DoorLockStatus (If_DoorLockStatus)",
+            "r_VehicleSpeed (If_VehicleSpeed), r_CrashStatus (If_CrashStatus), r_PowerState (If_PowerModeControl)"
+          ],
+          [
+            "WindowCtrlSWC",
+            "p_WindowState (If_WindowState)",
+            "r_VehicleSpeed (If_VehicleSpeed), r_PowerState (If_PowerModeControl)"
+          ],
+          [
+            "LightingMgrSWC",
+            "p_LightingCommand (If_LightingCommand)",
+            "r_PowerState (If_PowerModeControl), r_CrashStatus (If_CrashStatus)"
+          ],
+          [
+            "WiperWasherSWC",
+            "p_WiperSpeedCmd (If_WiperSpeedCmd)",
+            "r_VehicleSpeed (If_VehicleSpeed), r_RainIntensity (If_RainIntensity)"
+          ],
+          [
+            "CanComSWC",
+            "p_VehicleSpeed (If_VehicleSpeed), p_CrashStatus (If_CrashStatus)",
+            "r_DoorLockStatus (If_DoorLockStatus), r_LightingCommand (If_LightingCommand)"
+          ],
+          [
+            "PowerMgrSWC",
+            "p_PowerState (If_PowerModeControl), p_BatteryVoltage (If_BatteryVoltage)",
+            "r_IgnitionSwitch (If_VehicleSpeed)"
+          ],
+          [
+            "DiagMgrSWC",
+            "p_DiagDtcService (If_DiagDtcService)",
+            "r_BatteryVoltage (If_BatteryVoltage)"
+          ],
+          [
+            "ImmobilizerSWC",
+            "p_AuthSecurity (If_AuthSecurity)",
+            "r_PowerState (If_PowerModeControl)"
+          ]
+        ]
+      ],
+      "table_count": 1
+    },
+    {
+      "page_number": 10,
+      "content_type": "table",
+      "raw_text": "8. Hardware Interface & Connector Pinout\n8.1 Physical Connector Pin Allocations\nThe table below details physical connector allocations for the BCM ECU:\nPin ID\nConnector\nSignal Name\nElectrical Spec\nFail-Safe Default\nASIL\nPIN_01\nCN-A\nSig_DoorState_FrontLeft\n0-12V Digital Input\nHIGH_IMPEDANCE\nASIL-B\nPIN_02\nCN-A\nSig_DoorState_FrontRight\n0-12V Digital Input\nHIGH_IMPEDANCE\nASIL-B\nPIN_03\nCN-A\nSig_EmergencyCrashPulse\n0-5V TTL Interrupt\nPULL_HIGH (TRIP)\nASIL-D\nPIN_04\nCN-B\nSig_CanHigh_HS_Ch1\nCAN-FD ISO 11898-2\nRECESSIVE\nASIL-C\nPIN_05\nCN-B\nSig_CanLow_HS_Ch1\nCAN-FD ISO 11898-2\nRECESSIVE\nASIL-C\nPIN_06\nCN-C\nSig_LinBusMaster_Ch0\nLIN 2.2A Single Wire\nRECESSIVE\nQM\nPIN_07\nCN-C\nSig_RainSensorVal_Pin\nPWM 100Hz 5V\nDUTY_50_DEFAULT\nQM\nPIN_08\nCN-D\nSig_HeadlampRelayHigh\n12V 25A Driver\nFORCE_OFF\nASIL-B\nPIN_09\nCN-D\nSig_HazardFlasherDirect\n12V 15A Pulsed\nFORCE_FLASHING\nASIL-C\nPIN_10\nCN-E\nSig_WiperParkSwitch\nActive-Low Ground\nWIPER_HOME\nASIL-A\nPIN_11\nCN-E\nSig_WindowPinchSense\nCurrent 0-20mA\nSTOP_REVERSE\nASIL-B\nPIN_12\nCN-F\nSig_VBat_SupplyMonitor\nAnalog ADC 0-32V\nNOMINAL_12V\nASIL-B\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 10 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "8. Hardware Interface & Connector Pinout"
+        },
+        {
+          "section_title": "8.1 Physical Connector Pin Allocations",
+          "content": "The table below details physical connector allocations for the BCM ECU:\nPin ID\nConnector\nSignal Name\nElectrical Spec\nFail-Safe Default\nASIL\nPIN_01\nCN-A\nSig_DoorState_FrontLeft\n0-12V Digital Input\nHIGH_IMPEDANCE\nASIL-B\nPIN_02\nCN-A\nSig_DoorState_FrontRight\n0-12V Digital Input\nHIGH_IMPEDANCE\nASIL-B\nPIN_03\nCN-A\nSig_EmergencyCrashPulse\n0-5V TTL Interrupt\nPULL_HIGH (TRIP)\nASIL-D\nPIN_04\nCN-B\nSig_CanHigh_HS_Ch1\nCAN-FD ISO 11898-2\nRECESSIVE\nASIL-C\nPIN_05\nCN-B\nSig_CanLow_HS_Ch1\nCAN-FD ISO 11898-2\nRECESSIVE\nASIL-C\nPIN_06\nCN-C\nSig_LinBusMaster_Ch0\nLIN 2.2A Single Wire\nRECESSIVE\nQM\nPIN_07\nCN-C\nSig_RainSensorVal_Pin\nPWM 100Hz 5V\nDUTY_50_DEFAULT\nQM\nPIN_08\nCN-D\nSig_HeadlampRelayHigh\n12V 25A Driver\nFORCE_OFF\nASIL-B\nPIN_09\nCN-D\nSig_HazardFlasherDirect\n12V 15A Pulsed\nFORCE_FLASHING\nASIL-C\nPIN_10\nCN-E\nSig_WiperParkSwitch\nActive-Low Ground\nWIPER_HOME\nASIL-A\nPIN_11\nCN-E\nSig_WindowPinchSense\nCurrent 0-20mA\nSTOP_REVERSE\nASIL-B\nPIN_12\nCN-F\nSig_VBat_SupplyMonitor\nAnalog ADC 0-32V\nNOMINAL_12V\nASIL-B"
+        }
+      ],
+      "tables": [
+        [
+          [
+            "Pin ID",
+            "Connector",
+            "Signal Name",
+            "Electrical Spec",
+            "Fail-Safe Default",
+            "ASIL"
+          ],
+          [
+            "PIN_01",
+            "CN-A",
+            "Sig_DoorState_FrontLeft",
+            "0-12V Digital Input",
+            "HIGH_IMPEDANCE",
+            "ASIL-B"
+          ],
+          [
+            "PIN_02",
+            "CN-A",
+            "Sig_DoorState_FrontRight",
+            "0-12V Digital Input",
+            "HIGH_IMPEDANCE",
+            "ASIL-B"
+          ],
+          [
+            "PIN_03",
+            "CN-A",
+            "Sig_EmergencyCrashPulse",
+            "0-5V TTL Interrupt",
+            "PULL_HIGH (TRIP)",
+            "ASIL-D"
+          ],
+          [
+            "PIN_04",
+            "CN-B",
+            "Sig_CanHigh_HS_Ch1",
+            "CAN-FD ISO 11898-2",
+            "RECESSIVE",
+            "ASIL-C"
+          ],
+          [
+            "PIN_05",
+            "CN-B",
+            "Sig_CanLow_HS_Ch1",
+            "CAN-FD ISO 11898-2",
+            "RECESSIVE",
+            "ASIL-C"
+          ],
+          [
+            "PIN_06",
+            "CN-C",
+            "Sig_LinBusMaster_Ch0",
+            "LIN 2.2A Single Wire",
+            "RECESSIVE",
+            "QM"
+          ],
+          [
+            "PIN_07",
+            "CN-C",
+            "Sig_RainSensorVal_Pin",
+            "PWM 100Hz 5V",
+            "DUTY_50_DEFAULT",
+            "QM"
+          ],
+          [
+            "PIN_08",
+            "CN-D",
+            "Sig_HeadlampRelayHigh",
+            "12V 25A Driver",
+            "FORCE_OFF",
+            "ASIL-B"
+          ],
+          [
+            "PIN_09",
+            "CN-D",
+            "Sig_HazardFlasherDirect",
+            "12V 15A Pulsed",
+            "FORCE_FLASHING",
+            "ASIL-C"
+          ],
+          [
+            "PIN_10",
+            "CN-E",
+            "Sig_WiperParkSwitch",
+            "Active-Low Ground",
+            "WIPER_HOME",
+            "ASIL-A"
+          ],
+          [
+            "PIN_11",
+            "CN-E",
+            "Sig_WindowPinchSense",
+            "Current 0-20mA",
+            "STOP_REVERSE",
+            "ASIL-B"
+          ],
+          [
+            "PIN_12",
+            "CN-F",
+            "Sig_VBat_SupplyMonitor",
+            "Analog ADC 0-32V",
+            "NOMINAL_12V",
+            "ASIL-B"
+          ]
+        ]
+      ],
+      "table_count": 1
+    },
+    {
+      "page_number": 11,
+      "content_type": "flow",
+      "raw_text": "9. Functional Flow Sequences\n9.1 Flow 1: Automatic Speed-Dependent Door Locking (Auto-Lock)\nPrecondition: Vehicle engine is running, passenger doors closed, initial speed 0 km/h.\nExecution Steps:\n1. Wheel speed sensors transmit periodic pulses to ABS/ESP ECU.\n2. ESP ECU broadcasts velocity on CAN-FD Channel 1.\n3. CanComSWC unpacks CAN frame and writes VehicleSpeedKmh to RTE port p_VehicleSpeed.\n4. DoorLockSWC evaluates r_VehicleSpeed at 20ms invocation period.\n5. When VehicleSpeedKmh exceeds 15 km/h:\n    a. DoorLockSWC asserts output latch driver signals for all 4 doors simultaneously.\n    b. Hardware solenoids energize for 120ms driving latches to LOCKED position.\n    c. DoorLockSWC updates DoorLockState = 1 (LOCKED) on port p_DoorLockStatus.\n6. Cluster display receives lock status confirmation and activates icon.\n9.2 Flow 2: Crash Hazard Unlock and Lighting Response\nPrecondition: Vehicle is in motion or stationary; door latches are in LOCKED position.\nExecution Steps:\n1. Airbag Restraint Control Module (RCM) detects crash deceleration exceeding 5g.\n2. RCM asserts discrete hardwired interrupt line PIN_03 and broadcasts Crash CAN-FD frame.\n3. CanComSWC asserts p_CrashStatus.CrashDetected = TRUE within < 5ms.\n4. DoorLockSWC intercepts crash event via r_CrashStatus:\n    a. Overrides manual lock switch commands and child lock inhibitions.\n    b. Pulses unlock solenoid drivers for 250ms to force latches into UNLOCKED state.\n5. LightingMgrSWC receives emergency trigger:\n    a. Immediately engages hazard flasher relays at continuous 1.5 Hz cadence.\n    b. Activates interior ambient courtesy lamps at 100% brightness.\n6. DiagMgrSWC registers crash freeze-frame record and locks DTC B10A2 into EEPROM.\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 11 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "9. Functional Flow Sequences\n9.1 Flow 1: Automatic Speed-Dependent Door Locking (Auto-Lock)\nPrecondition: Vehicle engine is running, passenger doors closed, initial speed 0 km/h.\nExecution Steps:\n1. Wheel speed sensors transmit periodic pulses to ABS/ESP ECU.\n2. ESP ECU broadcasts velocity on CAN-FD Channel 1.\n3. CanComSWC unpacks CAN frame and writes VehicleSpeedKmh to RTE port p_VehicleSpeed.\n4. DoorLockSWC evaluates r_VehicleSpeed at 20ms invocation period.\n5. When VehicleSpeedKmh exceeds 15 km/h:\na. DoorLockSWC asserts output latch driver signals for all 4 doors simultaneously.\nb. Hardware solenoids energize for 120ms driving latches to LOCKED position.\nc. DoorLockSWC updates DoorLockState = 1 (LOCKED) on port p_DoorLockStatus.\n6. Cluster display receives lock status confirmation and activates icon.\n9.2 Flow 2: Crash Hazard Unlock and Lighting Response\nPrecondition: Vehicle is in motion or stationary; door latches are in LOCKED position.\nExecution Steps:\n1. Airbag Restraint Control Module (RCM) detects crash deceleration exceeding 5g.\n2. RCM asserts discrete hardwired interrupt line PIN_03 and broadcasts Crash CAN-FD frame.\n3. CanComSWC asserts p_CrashStatus.CrashDetected = TRUE within < 5ms.\n4. DoorLockSWC intercepts crash event via r_CrashStatus:\na. Overrides manual lock switch commands and child lock inhibitions.\nb. Pulses unlock solenoid drivers for 250ms to force latches into UNLOCKED state.\n5. LightingMgrSWC receives emergency trigger:\na. Immediately engages hazard flasher relays at continuous 1.5 Hz cadence.\nb. Activates interior ambient courtesy lamps at 100% brightness.\n6. DiagMgrSWC registers crash freeze-frame record and locks DTC B10A2 into EEPROM."
+        }
+      ],
+      "tables": [],
+      "table_count": 0
+    },
+    {
+      "page_number": 12,
+      "content_type": "table",
+      "raw_text": "10. Diagnostic Specifications & DTC Matrix\n10.1 UDS ISO 14229 Service Support\nThe BCM diagnostic stack implements Unified Diagnostic Services (UDS) over ISO-TP:\n\u2022 Service 0x10: Diagnostic Session Control (Default, Programming, Extended Sessions).\n\u2022 Service 0x14: Clear Diagnostic Information (Group 0xFFFFFF).\n\u2022 Service 0x19: Read DTC Information (sub-functions 0x02 reportByStatusMask, 0x06 reportSnapshotRecord).\n\u2022 Service 0x22: Read Data by Identifier (DID read for battery voltage, software version).\n\u2022 Service 0x27: Security Access (Seed-Key authentication).\n\u2022 Service 0x2E: Write Data by Identifier (VIN write, end-of-line calibration).\n10.2 Diagnostic Trouble Code Matrix\nDTC ID\nFault Code Title\nFault Trigger Condition\nRecovery Criteria\nSeverity\nB10A2\nCrash Event Recorded\nContinuous LOW on PIN_03 or crash\nCAN pulse\nNon-erasable without\nSecurity Level 27\nCritical\nB1001\nFront Left Door Latch Jammed\nSolenoid energizes for > 500ms without\nstate change\nCycle manual door handle 3\ntimes\nMedium\nB1020\nAnti-Pinch Sensor Open Circuit\nAnalog sensor resistance > 100 kOhm\nResistance returns to 5 - 20\nkOhm for 2 sec\nHigh\nB1035\nHeadlamp Relay High-Side Short\nPROFET detects overcurrent (> 35A)\nduring activation\nAuto-retry after 30 sec\ncooling period\nHigh\nB1044\nRain Sensor Bus Timeout\nNo LIN response frame from sensor for >\n500ms\nSuccessful LIN header reply\nreceived\nLow\nU0100\nLost Comms with Engine ECM\nCAN message 0x100 missing for >\n200ms\n10 consecutive valid CAN\nframes received\nHigh\nP0562\nSystem Voltage Low (LVS)\nBattery voltage drops below 9.0V for > 5\nseconds\nBattery voltage rises above\n10.5V for 3 seconds\nMedium\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 12 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "10. Diagnostic Specifications & DTC Matrix"
+        },
+        {
+          "section_title": "10.1 UDS ISO 14229 Service Support",
+          "content": "The BCM diagnostic stack implements Unified Diagnostic Services (UDS) over ISO-TP:\n\u2022 Service 0x10: Diagnostic Session Control (Default, Programming, Extended Sessions).\n\u2022 Service 0x14: Clear Diagnostic Information (Group 0xFFFFFF).\n\u2022 Service 0x19: Read DTC Information (sub-functions 0x02 reportByStatusMask, 0x06 reportSnapshotRecord).\n\u2022 Service 0x22: Read Data by Identifier (DID read for battery voltage, software version).\n\u2022 Service 0x27: Security Access (Seed-Key authentication).\n\u2022 Service 0x2E: Write Data by Identifier (VIN write, end-of-line calibration)."
+        },
+        {
+          "section_title": "10.2 Diagnostic Trouble Code Matrix",
+          "content": "DTC ID\nFault Code Title\nFault Trigger Condition\nRecovery Criteria\nSeverity\nB10A2\nCrash Event Recorded\nContinuous LOW on PIN_03 or crash\nCAN pulse\nNon-erasable without\nSecurity Level 27\nCritical\nB1001\nFront Left Door Latch Jammed\nSolenoid energizes for > 500ms without\nstate change\nCycle manual door handle 3\ntimes\nMedium\nB1020\nAnti-Pinch Sensor Open Circuit\nAnalog sensor resistance > 100 kOhm\nResistance returns to 5 - 20\nkOhm for 2 sec\nHigh\nB1035\nHeadlamp Relay High-Side Short\nPROFET detects overcurrent (> 35A)\nduring activation\nAuto-retry after 30 sec\ncooling period\nHigh\nB1044\nRain Sensor Bus Timeout\nNo LIN response frame from sensor for >\n500ms\nSuccessful LIN header reply\nreceived\nLow\nU0100\nLost Comms with Engine ECM\nCAN message 0x100 missing for >\n200ms\n10 consecutive valid CAN\nframes received\nHigh\nP0562\nSystem Voltage Low (LVS)\nBattery voltage drops below 9.0V for > 5\nseconds\nBattery voltage rises above\n10.5V for 3 seconds\nMedium"
+        }
+      ],
+      "tables": [
+        [
+          [
+            "DTC ID",
+            "Fault Code Title",
+            "Fault Trigger Condition",
+            "Recovery Criteria",
+            "Severity"
+          ],
+          [
+            "B10A2",
+            "Crash Event Recorded",
+            "Continuous LOW on PIN_03 or crash CAN pulse",
+            "Non-erasable without Security Level 27",
+            "Critical"
+          ],
+          [
+            "B1001",
+            "Front Left Door Latch Jammed",
+            "Solenoid energizes for > 500ms without state change",
+            "Cycle manual door handle 3 times",
+            "Medium"
+          ],
+          [
+            "B1020",
+            "Anti-Pinch Sensor Open Circuit",
+            "Analog sensor resistance > 100 kOhm",
+            "Resistance returns to 5 - 20 kOhm for 2 sec",
+            "High"
+          ],
+          [
+            "B1035",
+            "Headlamp Relay High-Side Short",
+            "PROFET detects overcurrent (> 35A) during activation",
+            "Auto-retry after 30 sec cooling period",
+            "High"
+          ],
+          [
+            "B1044",
+            "Rain Sensor Bus Timeout",
+            "No LIN response frame from sensor for > 500ms",
+            "Successful LIN header reply received",
+            "Low"
+          ],
+          [
+            "U0100",
+            "Lost Comms with Engine ECM",
+            "CAN message 0x100 missing for > 200ms",
+            "10 consecutive valid CAN frames received",
+            "High"
+          ],
+          [
+            "P0562",
+            "System Voltage Low (LVS)",
+            "Battery voltage drops below 9.0V for > 5 seconds",
+            "Battery voltage rises above 10.5V for 3 seconds",
+            "Medium"
+          ]
+        ]
+      ],
+      "table_count": 1
+    },
+    {
+      "page_number": 13,
+      "content_type": "table",
+      "raw_text": "11. Verification Matrix & Traceability\n11.1 Requirement to Test Case Mapping\nReq ID\nRequirement Description\nAllocated SWC\nTarget Test Method\nREQ-BCM-001\nDoors must lock automatically when vehicle speed\nexceeds 15 km/h\nDoorLockSWC\nHardware-in-the-Loop (HIL) CAN\ninjection\nREQ-BCM-002\nAll latches must unlock within 30ms of collision pulse\nreception\nDoorLockSWC\nDigital oscilloscope hardware\ntiming verify\nREQ-BCM-003\nHazard lights must oscillate at 1.5 Hz during crash\ncondition\nLightingMgrSWC\nCAN and relay pulse frequency\ncounter\nREQ-BCM-004\nWindow express upward movement must reverse upon\n>100N pinch resistance\nWindowCtrlSWC\nMechanical pinch rig calibrated\nload cell\nREQ-BCM-005\nSystem must enter Low Voltage Sleep if VBat remains\n< 9V for 5s\nPowerMgrSWC\nProgrammable DC bench power\nsupply drop test\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 13 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "11. Verification Matrix & Traceability"
+        },
+        {
+          "section_title": "11.1 Requirement to Test Case Mapping",
+          "content": "Req ID\nRequirement Description\nAllocated SWC\nTarget Test Method\nREQ-BCM-001\nDoors must lock automatically when vehicle speed\nexceeds 15 km/h\nDoorLockSWC\nHardware-in-the-Loop (HIL) CAN\ninjection\nREQ-BCM-002\nAll latches must unlock within 30ms of collision pulse\nreception\nDoorLockSWC\nDigital oscilloscope hardware\ntiming verify\nREQ-BCM-003\nHazard lights must oscillate at 1.5 Hz during crash\ncondition\nLightingMgrSWC\nCAN and relay pulse frequency\ncounter\nREQ-BCM-004\nWindow express upward movement must reverse upon\n>100N pinch resistance\nWindowCtrlSWC\nMechanical pinch rig calibrated\nload cell\nREQ-BCM-005\nSystem must enter Low Voltage Sleep if VBat remains\n< 9V for 5s\nPowerMgrSWC\nProgrammable DC bench power\nsupply drop test"
+        }
+      ],
+      "tables": [
+        [
+          [
+            "Req ID",
+            "Requirement Description",
+            "Allocated SWC",
+            "Target Test Method"
+          ],
+          [
+            "REQ-BCM-001",
+            "Doors must lock automatically when vehicle speed exceeds 15 km/h",
+            "DoorLockSWC",
+            "Hardware-in-the-Loop (HIL) CAN injection"
+          ],
+          [
+            "REQ-BCM-002",
+            "All latches must unlock within 30ms of collision pulse reception",
+            "DoorLockSWC",
+            "Digital oscilloscope hardware timing verify"
+          ],
+          [
+            "REQ-BCM-003",
+            "Hazard lights must oscillate at 1.5 Hz during crash condition",
+            "LightingMgrSWC",
+            "CAN and relay pulse frequency counter"
+          ],
+          [
+            "REQ-BCM-004",
+            "Window express upward movement must reverse upon >100N pinch resistance",
+            "WindowCtrlSWC",
+            "Mechanical pinch rig calibrated load cell"
+          ],
+          [
+            "REQ-BCM-005",
+            "System must enter Low Voltage Sleep if VBat remains < 9V for 5s",
+            "PowerMgrSWC",
+            "Programmable DC bench power supply drop test"
+          ]
+        ]
+      ],
+      "table_count": 1
+    },
+    {
+      "page_number": 14,
+      "content_type": "table",
+      "raw_text": "12. Glossary and Terminology Definitions\nSection 12.1: Standard Architectural Glossary\nTerm\nDefinition\nSWC\nSoftware Component: Self-contained functional unit encapsulated according to the AUTOSAR component model.\nRTE\nRuntime Environment: Virtual Function Bus (VFB) middleware linking SWC ports to BSW or each other.\nBSW\nBasic Software: Standardized software layers including Services, ECUM, Com, and MCAL drivers.\nS/R Interface\nSender-Receiver Interface: Asynchronous data broadcast communication pattern between ports.\nC/S Interface\nClient-Server Interface: Synchronous or asynchronous operation invocation between ports.\nDTC\nDiagnostic Trouble Code: 3-byte identifier specifying fault classification and symptom.\nASIL\nAutomotive Safety Integrity Level: ISO 26262 risk classification (QM, ASIL-A through ASIL-D).\nUDS\nUnified Diagnostic Services: ISO 14229 protocol standard for automotive diagnostic exchange.\nSection 12.2: Governance Sign-off Note\nThis concludes the formal High-Level Design specification for the Body Control Module. Revisions must follow formal ECN\nreview procedures.\nAUTOSAR High-Level Design: Body Control ECU (BCM)\nBaseline Architecture (Rev v1.0)\nAdvisory Document - Engineering Review Required\nPage 14 of 14",
+      "sections": [
+        {
+          "section_title": "General",
+          "content": "12. Glossary and Terminology Definitions"
+        },
+        {
+          "section_title": "Section 12.1: Standard Architectural Glossary",
+          "content": "Term\nDefinition\nSWC\nSoftware Component: Self-contained functional unit encapsulated according to the AUTOSAR component model.\nRTE\nRuntime Environment: Virtual Function Bus (VFB) middleware linking SWC ports to BSW or each other.\nBSW\nBasic Software: Standardized software layers including Services, ECUM, Com, and MCAL drivers.\nS/R Interface\nSender-Receiver Interface: Asynchronous data broadcast communication pattern between ports.\nC/S Interface\nClient-Server Interface: Synchronous or asynchronous operation invocation between ports.\nDTC\nDiagnostic Trouble Code: 3-byte identifier specifying fault classification and symptom.\nASIL\nAutomotive Safety Integrity Level: ISO 26262 risk classification (QM, ASIL-A through ASIL-D).\nUDS\nUnified Diagnostic Services: ISO 14229 protocol standard for automotive diagnostic exchange."
+        },
+        {
+          "section_title": "Section 12.2: Governance Sign-off Note",
+          "content": "This concludes the formal High-Level Design specification for the Body Control Module. Revisions must follow formal ECN\nreview procedures."
+        }
+      ],
+      "tables": [
+        [
+          [
+            "Term",
+            "Definition"
+          ],
+          [
+            "SWC",
+            "Software Component: Self-contained functional unit encapsulated according to the AUTOSAR component model."
+          ],
+          [
+            "RTE",
+            "Runtime Environment: Virtual Function Bus (VFB) middleware linking SWC ports to BSW or each other."
+          ],
+          [
+            "BSW",
+            "Basic Software: Standardized software layers including Services, ECUM, Com, and MCAL drivers."
+          ],
+          [
+            "S/R Interface",
+            "Sender-Receiver Interface: Asynchronous data broadcast communication pattern between ports."
+          ],
+          [
+            "C/S Interface",
+            "Client-Server Interface: Synchronous or asynchronous operation invocation between ports."
+          ],
+          [
+            "DTC",
+            "Diagnostic Trouble Code: 3-byte identifier specifying fault classification and symptom."
+          ],
+          [
+            "ASIL",
+            "Automotive Safety Integrity Level: ISO 26262 risk classification (QM, ASIL-A through ASIL-D)."
+          ],
+          [
+            "UDS",
+            "Unified Diagnostic Services: ISO 14229 protocol standard for automotive diagnostic exchange."
+          ]
+        ]
+      ],
+      "table_count": 1
+    }
+  ]
+}

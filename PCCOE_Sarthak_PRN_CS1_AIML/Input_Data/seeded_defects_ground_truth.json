@@ -1,0 +1,75 @@
+{
+  "metadata": {
+    "title": "Ground Truth Seeded Architectural Defects (HLD_BodyControl_v2.pdf vs v1.pdf)",
+    "baseline_document": "HLD_BodyControl_v1.pdf",
+    "revised_document": "HLD_BodyControl_v2.pdf",
+    "total_seeded_defects": 6,
+    "verification_purpose": "Automated RAG and architectural comparison rule validation"
+  },
+  "defects": [
+    {
+      "defect_id": "DEF-SIG-01",
+      "category": "renamed_signal",
+      "v1_identifier": "Sig_DoorState_FrontLeft",
+      "v2_identifier": "Sig_DoorState_FL_Status",
+      "section": "Section 6.1 (Signal List)",
+      "page": 8,
+      "severity": "High",
+      "description": "Signal renamed without corresponding CAN interface alias definition."
+    },
+    {
+      "defect_id": "DEF-SIG-02",
+      "category": "renamed_signal",
+      "v1_identifier": "Sig_HeadlampStatus",
+      "v2_identifier": "Sig_ExteriorHeadlamp_State",
+      "section": "Section 6.1 (Signal List)",
+      "page": 8,
+      "severity": "Medium",
+      "description": "Signal renamed, breaking LightingMgrSWC downstream telemetry link."
+    },
+    {
+      "defect_id": "DEF-PORT-01",
+      "category": "removed_port",
+      "component": "DoorLockSWC",
+      "port_name": "p_DoorLockStatus",
+      "port_type": "PPort",
+      "interface": "If_DoorLockStatus",
+      "section": "Section 7.1 (Component Port Bindings)",
+      "page": 9,
+      "severity": "Critical",
+      "description": "PPort p_DoorLockStatus removed from DoorLockSWC, leaving CanComSWC r_DoorLockStatus unsupplied."
+    },
+    {
+      "defect_id": "DEF-TYPE-01",
+      "category": "changed_data_type",
+      "interface": "If_VehicleSpeed",
+      "element": "VehicleSpeedKmh",
+      "v1_type": "Uint16",
+      "v2_type": "Float32",
+      "section": "Section 5.1 (S/R Interfaces)",
+      "page": 6,
+      "severity": "High",
+      "description": "Vehicle speed data type changed from integer (Uint16) to floating-point (Float32)."
+    },
+    {
+      "defect_id": "DEF-UNDEF-01",
+      "category": "undefined_component_reference",
+      "component_name": "SunroofCtrlSWC",
+      "section": "Section 4.2 (Auxiliary System Dependencies)",
+      "page": 5,
+      "severity": "High",
+      "description": "Component SunroofCtrlSWC referenced for rain auto-closure, but missing from SWC inventory."
+    },
+    {
+      "defect_id": "DEF-ORPHAN-01",
+      "category": "orphaned_interface",
+      "interface_name": "If_TrailerHitchDetect",
+      "provider": "LightingMgrSWC",
+      "consumer": "None (Unconnected)",
+      "section": "Section 5.1 & Section 7.1",
+      "page": 6,
+      "severity": "Medium",
+      "description": "Trailer detection interface provided by LightingMgrSWC but never consumed by any SWC or BSW."
+    }
+  ]
+}

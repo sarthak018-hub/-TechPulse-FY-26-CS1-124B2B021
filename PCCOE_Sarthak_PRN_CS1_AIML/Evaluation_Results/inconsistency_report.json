@@ -1,0 +1,86 @@
+{
+  "baseline_document": "HLD_BodyControl_v1.pdf",
+  "revised_document": "HLD_BodyControl_v2.pdf",
+  "total_defects_detected": 6,
+  "summary_by_category": {
+    "Renamed Signal": 2,
+    "Removed Port": 1,
+    "Changed Data Type": 1,
+    "Referenced But Undefined Component": 1,
+    "Interface With No Consumer": 1
+  },
+  "inconsistencies": [
+    {
+      "id": "INC-SIG-01",
+      "category": "Renamed Signal",
+      "severity": "High",
+      "entity": "Sig_DoorState_FrontLeft",
+      "v1_value": "Sig_DoorState_FrontLeft",
+      "v2_value": "Sig_DoorState_FL_Status",
+      "page_v1": 8,
+      "page_v2": 8,
+      "citation": "[HLD_BodyControl, v2, page 8, Section 6.1 (Signal List)]",
+      "explanation": "Signal 'Sig_DoorState_FrontLeft' was renamed to 'Sig_DoorState_FL_Status' in v2 without updating network communication bridges or defining an RTE alias."
+    },
+    {
+      "id": "INC-SIG-02",
+      "category": "Renamed Signal",
+      "severity": "High",
+      "entity": "Sig_HeadlampStatus",
+      "v1_value": "Sig_HeadlampStatus",
+      "v2_value": "Sig_ExteriorHeadlamp_State",
+      "page_v1": 8,
+      "page_v2": 8,
+      "citation": "[HLD_BodyControl, v2, page 8, Section 6.1 (Signal List)]",
+      "explanation": "Signal 'Sig_HeadlampStatus' was renamed to 'Sig_ExteriorHeadlamp_State' in v2 without updating network communication bridges or defining an RTE alias."
+    },
+    {
+      "id": "INC-PORT-03",
+      "category": "Removed Port",
+      "severity": "Critical",
+      "entity": "DoorLockSWC::p_DoorLockStatus",
+      "v1_value": "p_DoorLockStatus (If_DoorLockStatus)",
+      "v2_value": "Removed",
+      "page_v1": 9,
+      "page_v2": 9,
+      "citation": "[HLD_BodyControl, v2, page 9, Section 7.1 (Component Port Bindings)]",
+      "explanation": "Provided Port 'p_DoorLockStatus' was removed from 'DoorLockSWC', breaking downstream receiver bindings."
+    },
+    {
+      "id": "INC-TYPE-04",
+      "category": "Changed Data Type",
+      "severity": "High",
+      "entity": "If_VehicleSpeed::VehicleSpeedKmh",
+      "v1_value": "Uint16",
+      "v2_value": "Float32",
+      "page_v1": 6,
+      "page_v2": 6,
+      "citation": "[HLD_BodyControl, v2, page 6, Section 5.1 (S/R Interfaces)]",
+      "explanation": "Data element 'VehicleSpeedKmh' in interface 'If_VehicleSpeed' changed type from 'Uint16' to 'Float32', causing RTE buffer incompatible sizing."
+    },
+    {
+      "id": "INC-UNDEF-05",
+      "category": "Referenced But Undefined Component",
+      "severity": "High",
+      "entity": "SunroofCtrlSWC",
+      "v1_value": "Not Referenced",
+      "v2_value": "Referenced on Page 5",
+      "page_v1": 0,
+      "page_v2": 5,
+      "citation": "[HLD_BodyControl, v2, page 5, Section 4.2 (Auxiliary System Dependencies)]",
+      "explanation": "Component 'SunroofCtrlSWC' is referenced in operational narrative text on Page 5, but does not exist in the formal AUTOSAR component inventory table."
+    },
+    {
+      "id": "INC-ORPHAN-06",
+      "category": "Interface With No Consumer",
+      "severity": "Medium",
+      "entity": "If_TrailerHitchDetect",
+      "v1_value": "Not Present",
+      "v2_value": "Provided but Unconnected",
+      "page_v1": 0,
+      "page_v2": 6,
+      "citation": "[HLD_BodyControl, v2, page 6, Section 5.1 (S/R Interfaces)]",
+      "explanation": "Interface 'If_TrailerHitchDetect' is declared in the interface catalog but has no matching receiver port in any application component."
+    }
+  ]
+}

@@ -1,0 +1,529 @@
+{
+  "doc_id": "HLD_BodyControl",
+  "version": "v1",
+  "summary": {
+    "total_components": 10,
+    "total_interfaces": 15,
+    "total_signals": 23,
+    "total_dependencies": 8
+  },
+  "components": [
+    {
+      "component_name": "DoorLockSWC",
+      "type": "Application",
+      "asil": "ASIL-B",
+      "period": "20 ms",
+      "description": "Central door locking, child safety, auto-lock at 15 km/h, and emergency crash unlock override.",
+      "source_page": 5,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "WindowCtrlSWC",
+      "type": "Application",
+      "asil": "ASIL-A",
+      "period": "20 ms",
+      "description": "Power window motor positioning, express movement, and anti-pinch safety reverse algorithms.",
+      "source_page": 5,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "LightingMgrSWC",
+      "type": "Application",
+      "asil": "ASIL-B",
+      "period": "20 ms",
+      "description": "Headlamps, turn signals, hazard emergency flashers, and interior ambient lighting.",
+      "source_page": 5,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "WiperWasherSWC",
+      "type": "Application",
+      "asil": "ASIL-A",
+      "period": "50 ms",
+      "description": "Rain sensor processing, intermittent wiper pacing, and washer pump motor control.",
+      "source_page": 5,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "ImmobilizerSWC",
+      "type": "Application",
+      "asil": "QM",
+      "period": "100 ms",
+      "description": "Transponder key challenge-response cryptographic authentication with engine ECM.",
+      "source_page": 5,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "SeatAdjustmentSWC",
+      "type": "Application",
+      "asil": "QM",
+      "period": "100 ms",
+      "description": "Electric seat adjustment motors, Hall sensor feedback, and user memory presets.",
+      "source_page": 5,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "CanComSWC",
+      "type": "Service Bridge",
+      "asil": "ASIL-B",
+      "period": "10 ms",
+      "description": "CAN-FD frame serialization, signal filtering, E2E protection, and network management.",
+      "source_page": 5,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "LinComSWC",
+      "type": "Service Bridge",
+      "asil": "QM",
+      "period": "20 ms",
+      "description": "LIN master coordinator for rain sensor, mirror sub-nodes, and smart ambient LEDs.",
+      "source_page": 5,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "DiagMgrSWC",
+      "type": "Diagnostics",
+      "asil": "ASIL-B",
+      "period": "100 ms",
+      "description": "UDS ISO 14229 services, DTC fault logging, and freeze-frame snapshot capture.",
+      "source_page": 5,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "PowerMgrSWC",
+      "type": "Mode Control",
+      "asil": "ASIL-B",
+      "period": "20 ms",
+      "description": "ECU operational modes (Active, Standby, Sleep) and battery low-voltage load shedding.",
+      "source_page": 5,
+      "extraction_method": "deterministic_table"
+    }
+  ],
+  "interfaces": [
+    {
+      "interface_name": "If_DoorLockStatus",
+      "type": "Sender-Receiver",
+      "data_element": "DoorLockState",
+      "data_type": "Uint8",
+      "unit": "Enum",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_DoorLockStatus",
+      "type": "Sender-Receiver",
+      "data_element": "ChildLockActive",
+      "data_type": "Boolean",
+      "unit": "Flag",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_WindowState",
+      "type": "Sender-Receiver",
+      "data_element": "WindowPosition_FL",
+      "data_type": "Uint8",
+      "unit": "% Open",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_WindowState",
+      "type": "Sender-Receiver",
+      "data_element": "AntiPinchTriggered",
+      "data_type": "Boolean",
+      "unit": "Flag",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_LightingCommand",
+      "type": "Sender-Receiver",
+      "data_element": "ExteriorLightMode",
+      "data_type": "Uint8",
+      "unit": "Enum",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_LightingCommand",
+      "type": "Sender-Receiver",
+      "data_element": "HazardActive",
+      "data_type": "Boolean",
+      "unit": "Flag",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_VehicleSpeed",
+      "type": "Sender-Receiver",
+      "data_element": "VehicleSpeedKmh",
+      "data_type": "Uint16",
+      "unit": "km/h",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_BatteryVoltage",
+      "type": "Sender-Receiver",
+      "data_element": "SupplyVoltage_mV",
+      "data_type": "Uint16",
+      "unit": "mV",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_BatteryVoltage",
+      "type": "Sender-Receiver",
+      "data_element": "LowVoltageWarning",
+      "data_type": "Boolean",
+      "unit": "Flag",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_WiperSpeedCmd",
+      "type": "Sender-Receiver",
+      "data_element": "WiperSpeedMode",
+      "data_type": "Uint8",
+      "unit": "Enum",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_RainIntensity",
+      "type": "Sender-Receiver",
+      "data_element": "RainSensorLevel",
+      "data_type": "Uint8",
+      "unit": "Raw Lux",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_CrashStatus",
+      "type": "Sender-Receiver",
+      "data_element": "CrashDetected",
+      "data_type": "Boolean",
+      "unit": "Flag",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_AuthSecurity",
+      "type": "Client-Server",
+      "data_element": "AuthenticateKey",
+      "data_type": "IN seed: Uint32, OUT key: Uint32",
+      "unit": "Std_ReturnType",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_DiagDtcService",
+      "type": "Client-Server",
+      "data_element": "SetDTC",
+      "data_type": "IN dtcId: Uint32, IN status: Uint8",
+      "unit": "Std_ReturnType",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "interface_name": "If_PowerModeControl",
+      "type": "Client-Server",
+      "data_element": "RequestPowerState",
+      "data_type": "IN targetState: Uint8, OUT ack: Boolean",
+      "unit": "Std_ReturnType",
+      "source_page": 6,
+      "extraction_method": "deterministic_table"
+    }
+  ],
+  "signals": [
+    {
+      "signal_name": "Sig_DoorState_FrontLeft",
+      "data_type": "Uint8",
+      "cycle_time": "20 ms",
+      "bus": "CAN-FD",
+      "source_swc": "CanComSWC",
+      "destination_swc": "DoorLockSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_AutoLockSpeedThreshold",
+      "data_type": "Uint16",
+      "cycle_time": "100 ms",
+      "bus": "CAN-FD",
+      "source_swc": "CanComSWC",
+      "destination_swc": "DoorLockSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_CrashNotification",
+      "data_type": "Boolean",
+      "cycle_time": "10 ms",
+      "bus": "CAN-FD",
+      "source_swc": "CanComSWC",
+      "destination_swc": "DoorLockSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_HeadlampStatus",
+      "data_type": "Uint8",
+      "cycle_time": "50 ms",
+      "bus": "CAN-FD",
+      "source_swc": "LightingMgrSWC",
+      "destination_swc": "CanComSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_RainSensorVal",
+      "data_type": "Uint8",
+      "cycle_time": "100 ms",
+      "bus": "LIN",
+      "source_swc": "LinComSWC",
+      "destination_swc": "WiperWasherSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_WindowObstacleDetected",
+      "data_type": "Boolean",
+      "cycle_time": "20 ms",
+      "bus": "Internal",
+      "source_swc": "WindowCtrlSWC",
+      "destination_swc": "DiagMgrSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_BatterySupplyMV",
+      "data_type": "Uint16",
+      "cycle_time": "1000 ms",
+      "bus": "Internal",
+      "source_swc": "PowerMgrSWC",
+      "destination_swc": "DiagMgrSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_IgnitionSwitchPos",
+      "data_type": "Uint8",
+      "cycle_time": "20 ms",
+      "bus": "CAN-FD",
+      "source_swc": "CanComSWC",
+      "destination_swc": "PowerMgrSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_TurnSignalRequest",
+      "data_type": "Uint8",
+      "cycle_time": "50 ms",
+      "bus": "CAN-FD",
+      "source_swc": "LightingMgrSWC",
+      "destination_swc": "CanComSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_SeatMemoryPresetIndex",
+      "data_type": "Uint8",
+      "cycle_time": "200 ms",
+      "bus": "CAN-FD",
+      "source_swc": "SeatAdjustmentSWC",
+      "destination_swc": "CanComSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_WiperParkPosition",
+      "data_type": "Boolean",
+      "cycle_time": "50 ms",
+      "bus": "Internal",
+      "source_swc": "WiperWasherSWC",
+      "destination_swc": "CanComSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_AmbientBrightnessLux",
+      "data_type": "Uint16",
+      "cycle_time": "500 ms",
+      "bus": "LIN",
+      "source_swc": "LinComSWC",
+      "destination_swc": "LightingMgrSWC",
+      "source_page": 8,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_DoorState_FrontRight",
+      "data_type": "",
+      "cycle_time": "",
+      "bus": "",
+      "source_swc": "",
+      "destination_swc": "",
+      "source_page": 10,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_EmergencyCrashPulse",
+      "data_type": "",
+      "cycle_time": "",
+      "bus": "",
+      "source_swc": "",
+      "destination_swc": "",
+      "source_page": 10,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_CanHigh_HS_Ch1",
+      "data_type": "",
+      "cycle_time": "",
+      "bus": "",
+      "source_swc": "",
+      "destination_swc": "",
+      "source_page": 10,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_CanLow_HS_Ch1",
+      "data_type": "",
+      "cycle_time": "",
+      "bus": "",
+      "source_swc": "",
+      "destination_swc": "",
+      "source_page": 10,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_LinBusMaster_Ch0",
+      "data_type": "",
+      "cycle_time": "",
+      "bus": "",
+      "source_swc": "",
+      "destination_swc": "",
+      "source_page": 10,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_RainSensorVal_Pin",
+      "data_type": "",
+      "cycle_time": "",
+      "bus": "",
+      "source_swc": "",
+      "destination_swc": "",
+      "source_page": 10,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_HeadlampRelayHigh",
+      "data_type": "",
+      "cycle_time": "",
+      "bus": "",
+      "source_swc": "",
+      "destination_swc": "",
+      "source_page": 10,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_HazardFlasherDirect",
+      "data_type": "",
+      "cycle_time": "",
+      "bus": "",
+      "source_swc": "",
+      "destination_swc": "",
+      "source_page": 10,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_WiperParkSwitch",
+      "data_type": "",
+      "cycle_time": "",
+      "bus": "",
+      "source_swc": "",
+      "destination_swc": "",
+      "source_page": 10,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_WindowPinchSense",
+      "data_type": "",
+      "cycle_time": "",
+      "bus": "",
+      "source_swc": "",
+      "destination_swc": "",
+      "source_page": 10,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "signal_name": "Sig_VBat_SupplyMonitor",
+      "data_type": "",
+      "cycle_time": "",
+      "bus": "",
+      "source_swc": "",
+      "destination_swc": "",
+      "source_page": 10,
+      "extraction_method": "deterministic_table"
+    }
+  ],
+  "dependencies": [
+    {
+      "component_name": "DoorLockSWC",
+      "provided_ports": "p_DoorLockStatus (If_DoorLockStatus)",
+      "required_ports": "r_VehicleSpeed (If_VehicleSpeed), r_CrashStatus (If_CrashStatus), r_PowerState (If_PowerModeControl)",
+      "source_page": 9,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "WindowCtrlSWC",
+      "provided_ports": "p_WindowState (If_WindowState)",
+      "required_ports": "r_VehicleSpeed (If_VehicleSpeed), r_PowerState (If_PowerModeControl)",
+      "source_page": 9,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "LightingMgrSWC",
+      "provided_ports": "p_LightingCommand (If_LightingCommand)",
+      "required_ports": "r_PowerState (If_PowerModeControl), r_CrashStatus (If_CrashStatus)",
+      "source_page": 9,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "WiperWasherSWC",
+      "provided_ports": "p_WiperSpeedCmd (If_WiperSpeedCmd)",
+      "required_ports": "r_VehicleSpeed (If_VehicleSpeed), r_RainIntensity (If_RainIntensity)",
+      "source_page": 9,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "CanComSWC",
+      "provided_ports": "p_VehicleSpeed (If_VehicleSpeed), p_CrashStatus (If_CrashStatus)",
+      "required_ports": "r_DoorLockStatus (If_DoorLockStatus), r_LightingCommand (If_LightingCommand)",
+      "source_page": 9,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "PowerMgrSWC",
+      "provided_ports": "p_PowerState (If_PowerModeControl), p_BatteryVoltage (If_BatteryVoltage)",
+      "required_ports": "r_IgnitionSwitch (If_VehicleSpeed)",
+      "source_page": 9,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "DiagMgrSWC",
+      "provided_ports": "p_DiagDtcService (If_DiagDtcService)",
+      "required_ports": "r_BatteryVoltage (If_BatteryVoltage)",
+      "source_page": 9,
+      "extraction_method": "deterministic_table"
+    },
+    {
+      "component_name": "ImmobilizerSWC",
+      "provided_ports": "p_AuthSecurity (If_AuthSecurity)",
+      "required_ports": "r_PowerState (If_PowerModeControl)",
+      "source_page": 9,
+      "extraction_method": "deterministic_table"
+    }
+  ]
+}

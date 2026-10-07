@@ -1,0 +1,15 @@
+ComponentName,Category,ASIL,PeriodMs,PortsProvided,PortsRequired,Description
+DoorLockSWC,Actuator Control,ASIL-B,20,p_DoorLockStatus,r_VehicleSpeed; r_CrashStatus; r_PowerState,"Central door locking, child lock, auto-lock at 15 km/h, and emergency unlock"
+WindowCtrlSWC,Actuator Control,ASIL-A,20,p_WindowState,r_VehicleSpeed; r_PowerState,"Power window motor positioning, express movement, and anti-pinch safety"
+LightingMgrSWC,Actuator Control,ASIL-B,20,p_LightingCommand,r_CrashStatus; r_PowerState,"Exterior headlamps, turn signal flashers, and ambient interior lighting"
+WiperWasherSWC,Actuator Control,ASIL-A,50,p_WiperSpeedCmd,r_RainIntensity; r_VehicleSpeed,"Rain sensor processing, intermittent wiper pacing, and washer pump"
+ImmobilizerSWC,Security / Auth,QM,100,p_AuthSecurity,r_PowerState,Transponder key challenge-response authentication for engine immobilizer
+SeatAdjustmentSWC,Comfort Control,QM,100,p_SeatPresetStatus,r_VehicleSpeed; r_PowerState,Electric seat position adjustments and user memory preset recall
+MirrorCtrlSWC,Actuator Control,QM,50,p_MirrorState,r_VehicleSpeed; r_PowerState,"Side mirror tilt adjustment, power folding, and electrochromic anti-glare"
+HvacBridgeSWC,Gateway Bridge,QM,100,p_HvacStatus,r_PowerState,"Cabin HVAC blower requests, air flap positions, and compressor clutch interface"
+CanComSWC,Communication Bridge,ASIL-B,10,p_VehicleSpeed; p_CrashStatus,r_DoorLockStatus; r_LightingCommand,"CAN-FD serialization, frame filtering, and network management gateway"
+LinComSWC,Communication Bridge,QM,20,p_RainIntensity; p_AmbientLight,r_LightingCommand,"LIN master scheduling for rain sensor, smart ambient LEDs, and roof module"
+DiagMgrSWC,Diagnostics,ASIL-B,100,p_DiagDtcService,r_BatteryVoltage,"UDS ISO 14229 diagnostics, DTC fault logging, and DID telemetry"
+PowerMgrSWC,Mode Control,ASIL-B,20,p_PowerState; p_BatteryVoltage,r_IgnitionSwitch,"ECU power modes (Active, Standby, Sleep) and battery low-voltage load shedding"
+BswM_BridgeSWC,Mode Control,ASIL-B,50,p_BswM_Mode,r_PowerState,Basic Software Mode Manager interface for ECU state transitions
+SecurityAccessSWC,Security / Auth,ASIL-B,50,p_SecurityAccessService,r_DiagSession,UDS Service 0x27 Seed-Key security clearance for calibration and flashing

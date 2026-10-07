@@ -1,0 +1,16 @@
+interface_name,type,data_element,data_type,unit,source_page,extraction_method
+If_DoorLockStatus,Sender-Receiver,DoorLockState,Uint8,Enum,6,deterministic_table
+If_DoorLockStatus,Sender-Receiver,ChildLockActive,Boolean,Flag,6,deterministic_table
+If_WindowState,Sender-Receiver,WindowPosition_FL,Uint8,% Open,6,deterministic_table
+If_WindowState,Sender-Receiver,AntiPinchTriggered,Boolean,Flag,6,deterministic_table
+If_LightingCommand,Sender-Receiver,ExteriorLightMode,Uint8,Enum,6,deterministic_table
+If_LightingCommand,Sender-Receiver,HazardActive,Boolean,Flag,6,deterministic_table
+If_VehicleSpeed,Sender-Receiver,VehicleSpeedKmh,Uint16,km/h,6,deterministic_table
+If_BatteryVoltage,Sender-Receiver,SupplyVoltage_mV,Uint16,mV,6,deterministic_table
+If_BatteryVoltage,Sender-Receiver,LowVoltageWarning,Boolean,Flag,6,deterministic_table
+If_WiperSpeedCmd,Sender-Receiver,WiperSpeedMode,Uint8,Enum,6,deterministic_table
+If_RainIntensity,Sender-Receiver,RainSensorLevel,Uint8,Raw Lux,6,deterministic_table
+If_CrashStatus,Sender-Receiver,CrashDetected,Boolean,Flag,6,deterministic_table
+If_AuthSecurity,Client-Server,AuthenticateKey,"IN seed: Uint32, OUT key: Uint32",Std_ReturnType,6,deterministic_table
+If_DiagDtcService,Client-Server,SetDTC,"IN dtcId: Uint32, IN status: Uint8",Std_ReturnType,6,deterministic_table
+If_PowerModeControl,Client-Server,RequestPowerState,"IN targetState: Uint8, OUT ack: Boolean",Std_ReturnType,6,deterministic_table

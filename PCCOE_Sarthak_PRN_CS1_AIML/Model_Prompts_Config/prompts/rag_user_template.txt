@@ -1,0 +1,9 @@
+<CONTEXT_CHUNKS>
+{context_block}
+</CONTEXT_CHUNKS>
+
+<USER_QUESTION>
+{user_question}
+</USER_QUESTION>
+
+Instructions: Answer the question using ONLY the context chunks above. Adhere strictly to the citation and confidence format. If not mentioned in the context, output: "Not found in the provided document."

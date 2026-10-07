@@ -1,0 +1,24 @@
+signal_name,data_type,cycle_time,bus,source_swc,destination_swc,source_page,extraction_method
+Sig_DoorState_FrontLeft,Uint8,20 ms,CAN-FD,CanComSWC,DoorLockSWC,8,deterministic_table
+Sig_AutoLockSpeedThreshold,Uint16,100 ms,CAN-FD,CanComSWC,DoorLockSWC,8,deterministic_table
+Sig_CrashNotification,Boolean,10 ms,CAN-FD,CanComSWC,DoorLockSWC,8,deterministic_table
+Sig_HeadlampStatus,Uint8,50 ms,CAN-FD,LightingMgrSWC,CanComSWC,8,deterministic_table
+Sig_RainSensorVal,Uint8,100 ms,LIN,LinComSWC,WiperWasherSWC,8,deterministic_table
+Sig_WindowObstacleDetected,Boolean,20 ms,Internal,WindowCtrlSWC,DiagMgrSWC,8,deterministic_table
+Sig_BatterySupplyMV,Uint16,1000 ms,Internal,PowerMgrSWC,DiagMgrSWC,8,deterministic_table
+Sig_IgnitionSwitchPos,Uint8,20 ms,CAN-FD,CanComSWC,PowerMgrSWC,8,deterministic_table
+Sig_TurnSignalRequest,Uint8,50 ms,CAN-FD,LightingMgrSWC,CanComSWC,8,deterministic_table
+Sig_SeatMemoryPresetIndex,Uint8,200 ms,CAN-FD,SeatAdjustmentSWC,CanComSWC,8,deterministic_table
+Sig_WiperParkPosition,Boolean,50 ms,Internal,WiperWasherSWC,CanComSWC,8,deterministic_table
+Sig_AmbientBrightnessLux,Uint16,500 ms,LIN,LinComSWC,LightingMgrSWC,8,deterministic_table
+Sig_DoorState_FrontRight,,,,,,10,deterministic_table
+Sig_EmergencyCrashPulse,,,,,,10,deterministic_table
+Sig_CanHigh_HS_Ch1,,,,,,10,deterministic_table
+Sig_CanLow_HS_Ch1,,,,,,10,deterministic_table
+Sig_LinBusMaster_Ch0,,,,,,10,deterministic_table
+Sig_RainSensorVal_Pin,,,,,,10,deterministic_table
+Sig_HeadlampRelayHigh,,,,,,10,deterministic_table
+Sig_HazardFlasherDirect,,,,,,10,deterministic_table
+Sig_WiperParkSwitch,,,,,,10,deterministic_table
+Sig_WindowPinchSense,,,,,,10,deterministic_table
+Sig_VBat_SupplyMonitor,,,,,,10,deterministic_table

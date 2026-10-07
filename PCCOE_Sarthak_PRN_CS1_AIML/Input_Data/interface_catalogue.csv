@@ -1,0 +1,12 @@
+InterfaceName,Type,Elements,DataType,Unit,Description
+If_DoorLockStatus,Sender-Receiver,DoorLockState; ChildLockActive,Uint8; Boolean,Enum; Flag,Door lock status and child lock state
+If_WindowState,Sender-Receiver,WindowPosition_FL; AntiPinchTriggered,Uint8; Boolean,% Open; Flag,Window height position and anti-pinch event
+If_LightingCommand,Sender-Receiver,ExteriorLightMode; HazardActive,Uint8; Boolean,Enum; Flag,Headlamp operational mode and hazard blinker
+If_VehicleSpeed,Sender-Receiver,VehicleSpeedKmh,Uint16,km/h,Vehicle longitudinal speed from ABS/ESP
+If_BatteryVoltage,Sender-Receiver,SupplyVoltage_mV; LowVoltageWarning,Uint16; Boolean,mV; Flag,12V system battery supply and undervoltage alarm
+If_WiperSpeedCmd,Sender-Receiver,WiperSpeedMode,Uint8,Enum,Wiper operational pacing command (Off/Int/Low/High)
+If_RainIntensity,Sender-Receiver,RainSensorLevel,Uint8,Raw Lux,Moisture detection intensity from windshield optical sensor
+If_CrashStatus,Sender-Receiver,CrashDetected,Boolean,Flag,Collision event trigger from Airbag Restraint Module
+If_AuthSecurity,Client-Server,"AuthenticateKey(challenge, response)",Uint32 -> Uint32,Hex Token,Immobilizer cryptographic key verification
+If_DiagDtcService,Client-Server,"SetDTC(dtcId, status)","Uint32, Uint8 -> Std_ReturnType",DTC Code,BSW Dem diagnostic trouble code recording
+If_PowerModeControl,Client-Server,"RequestPowerState(targetState, ack)",Uint8 -> Boolean,Mode Index,"ECU power mode request (Run, Standby, Sleep)"
