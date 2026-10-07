@@ -19,3 +19,6 @@ Thumbs.db
 
 # Archives
 *.zip
+
+# Exclude technical notes/details from repository
+details.txt

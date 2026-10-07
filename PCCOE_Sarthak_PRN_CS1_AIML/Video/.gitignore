@@ -1,0 +1,4 @@
+# Ignore all media and video recordings in this folder
+*
+!.gitkeep
+!.gitignore
